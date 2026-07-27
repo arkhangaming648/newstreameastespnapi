@@ -36,6 +36,167 @@ function getNewsURL(sport, league) {
   return `${BASE_SITE}/${sport}/${league}/news?limit=6`;
 }
 
+function getStandingsURL(sport, league) {
+  return `${BASE_SITE}/${sport}/${league}/standings`;
+}
+
+async function fetchStandings(sport, league) {
+  return fetchJSON(getStandingsURL(sport, league));
+}
+
+function extractStandings(raw) {
+  if (!raw || !raw.standings) return [];
+  const results = [];
+  for (const s of raw.standings) {
+    if (!s.entries) continue;
+    for (const e of s.entries) {
+      if (!e.team) continue;
+      const stats = {};
+      (e.stats || []).forEach(st => { stats[st.name] = st.displayValue; });
+      results.push({
+        rank: parseInt(stats.rank) || results.length + 1,
+        teamId: e.team.id,
+        teamName: e.team.displayName || e.team.name || e.team.location || '',
+        teamAbbrev: e.team.abbreviation || '',
+        teamLogo: e.team.logos && e.team.logos[0] ? e.team.logos[0].href : null,
+        gp: stats.gamesPlayed || stats.wins || '0',
+        wins: stats.wins || '0',
+        losses: stats.losses || '0',
+        ties: stats.ties || '0',
+        gd: stats.goalDifference || stats.pointsFor || '0',
+        pts: stats.points || stats.rank || '0'
+      });
+    }
+  }
+  return results;
+}
+
+const LEAGUE_SLUG_MAP = {
+  'uefa.champions': 'uefa-champions-league',
+  'uefa.champions_qual': 'uefa-champions-league',
+  'uefa.europa': 'uefa-europa-league',
+  'uefa.europa_qual': 'uefa-europa-league',
+  'eng.1': 'english-premier-league',
+  'esp.1': 'spanish-laliga',
+  'ita.1': 'italian-serie-a',
+  'fra.1': 'french-ligue-1',
+  'ger.1': 'german-bundesliga',
+  'por.1': 'portuguese-liga',
+  'ned.1': 'dutch-eredivisie',
+  'sco.1': 'scottish-premiership',
+  'tur.1': 'turkish-super-lig',
+  'bel.1': 'belgian-pro-league',
+  'aut.1': 'austrian-bundesliga',
+  'swe.1': 'swedish-allsvenskan',
+  'nor.1': 'norwegian-eliteserien',
+  'den.1': 'danish-superliga',
+  'gre.1': 'greek-super-league',
+  'jpn.1': 'japanese-j-league',
+  'ksa.1': 'saudi-professional-league',
+  'usa.1': 'usa-mls',
+  'mex.1': 'mexican-liga-bbva',
+  'bra.1': 'brazilian-serie-a',
+  'bra.2': 'brazilian-serie-b',
+  'arg.1': 'argentinian-primera',
+  'chi.1': 'chilean-primera-division',
+  'par.1': 'paraguayan-primera',
+  'club.friendly': 'club-friendly',
+  'fifa.friendly': 'fifa-friendly',
+  'conmebol.sudamericana': 'conmebol-sudamericana',
+  'usa.nwsl': 'usa-nwsl',
+  'nba': 'nba',
+  'nfl': 'nfl',
+  'nhl': 'nhl',
+  'mlb': 'mlb',
+  'ufc': 'ufc',
+  'pfl': 'pfl',
+  'bellator': 'bellator',
+  'f1': 'f1'
+};
+
+function getLeagueSlug(leagueId) {
+  return LEAGUE_SLUG_MAP[leagueId] || slugify(leagueId);
+}
+
+function getLeagueName(leagueId) {
+  const names = {
+    'uefa.champions': 'UEFA Champions League',
+    'uefa.champions_qual': 'UEFA Champions League',
+    'uefa.europa': 'UEFA Europa League',
+    'uefa.europa_qual': 'UEFA Europa League',
+    'eng.1': 'English Premier League',
+    'esp.1': 'Spanish LALIGA',
+    'ita.1': 'Italian Serie A',
+    'fra.1': 'French Ligue 1',
+    'ger.1': 'German Bundesliga',
+    'por.1': 'Portuguese Liga',
+    'ned.1': 'Dutch Eredivisie',
+    'sco.1': 'Scottish Premiership',
+    'tur.1': 'Turkish Super Lig',
+    'bel.1': 'Belgian Pro League',
+    'aut.1': 'Austrian Bundesliga',
+    'swe.1': 'Swedish Allsvenskan',
+    'nor.1': 'Norwegian Eliteserien',
+    'den.1': 'Danish Superliga',
+    'gre.1': 'Greek Super League',
+    'jpn.1': 'Japanese J.League',
+    'ksa.1': 'Saudi Professional League',
+    'usa.1': 'USA MLS',
+    'mex.1': 'Mexican Liga BBVA',
+    'bra.1': 'Brazilian Serie A',
+    'bra.2': 'Brazilian Serie B',
+    'arg.1': 'Argentinian Primera',
+    'chi.1': 'Chilean Primera División',
+    'par.1': 'Paraguayan Primera',
+    'club.friendly': 'Club Friendly',
+    'fifa.friendly': 'FIFA Friendly',
+    'conmebol.sudamericana': 'CONMEBOL Sudamericana',
+    'usa.nwsl': 'USA NWSL',
+    'nba': 'NBA',
+    'nfl': 'NFL',
+    'nhl': 'NHL',
+    'mlb': 'MLB',
+    'ufc': 'UFC',
+    'pfl': 'PFL',
+    'bellator': 'Bellator',
+    'f1': 'Formula 1'
+  };
+  return names[leagueId] || leagueId;
+}
+
+function slugify(str) {
+  return String(str).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+}
+
+function getLeagueLogo(leagueId) {
+  const logos = {
+    'uefa.champions': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/2.png',
+    'uefa.champions_qual': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/2.png',
+    'uefa.europa': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/2310.png',
+    'uefa.europa_qual': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/2310.png',
+    'eng.1': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/23.png',
+    'esp.1': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/15.png',
+    'ita.1': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/12.png',
+    'fra.1': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/9.png',
+    'ger.1': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/10.png',
+    'por.1': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/14.png',
+    'bra.1': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/358.png',
+    'bra.2': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/2299.png',
+    'arg.1': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/21.png',
+    'mex.1': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/31.png',
+    'swe.1': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/16.png',
+    'usa.1': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/37.png',
+    'chi.1': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/86.png',
+    'club.friendly': 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/default-team-logo-500.png',
+    'nba': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/nba/500/nba.png',
+    'nfl': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/nfl/500/nfl.png',
+    'nhl': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/nhl/500/nhl.png',
+    'mlb': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/mlb/500/mlb.png',
+    'f1': 'https://a.espncdn.com/combiner/i?img=/i/leaguelogos/f1/500/f1.png'
+  };
+  return logos[leagueId] || null;
+}
+
 async function fetchScoreboard(sport, league, dateStr) {
   return fetchJSON(getScoreboardURL(sport, league, dateStr));
 }
@@ -183,11 +344,17 @@ export {
   fetchScoreboard,
   fetchEventSummary,
   fetchNews,
+  fetchStandings,
   extractEvents,
   normalizeEvent,
   extractCombinedStats,
   extractRosters,
   extractCommentary,
   extractArticle,
-  extractKeyEvents
+  extractKeyEvents,
+  extractStandings,
+  getLeagueSlug,
+  getLeagueName,
+  getLeagueLogo,
+  LEAGUE_SLUG_MAP
 };

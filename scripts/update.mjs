@@ -10,8 +10,8 @@ const CONFIG_PATH = join(ROOT, 'sports-config.json');
 
 const config = JSON.parse(readFileSync(CONFIG_PATH, 'utf-8'));
 
-import { fetchScoreboard, fetchEventSummary, fetchNews, extractEvents, normalizeEvent, extractCombinedStats, extractRosters, extractCommentary, extractArticle, extractKeyEvents } from './espn-client.mjs';
-import { renderMatchPage, renderSportListing, renderHomepage, slugify } from './renderer.mjs';
+import { fetchScoreboard, fetchEventSummary, fetchNews, fetchStandings, extractEvents, normalizeEvent, extractCombinedStats, extractRosters, extractCommentary, extractArticle, extractKeyEvents, extractStandings, getLeagueSlug, getLeagueName, getLeagueLogo, LEAGUE_SLUG_MAP } from './espn-client.mjs';
+import { renderMatchPage, renderSportListing, renderHomepage, renderLeaguePage, renderTeamPage, slugify } from './renderer.mjs';
 import { fetchBoxingListing, extractEvents as extractBoxingEvents, renderMatchPage as renderBoxingMatch, renderListing as renderBoxingListing } from './boxing-scraper.mjs';
 
 function loadManifest() {
@@ -33,6 +33,14 @@ function todayStr() {
 }
 
 const DATE_STR = todayStr();
+
+const FOOTER_TEAMS = [
+  { id: '364', name: 'Liverpool', slug: 'liverpool' },
+  { id: '360', name: 'Manchester United', slug: 'manchester-united' },
+  { id: '86', name: 'Real Madrid', slug: 'real-madrid' },
+  { id: '83', name: 'Barcelona', slug: 'barcelona' },
+  { id: '160', name: 'Paris Saint-Germain', slug: 'paris-saint-germain' }
+];
 
 async function processSport(sportKey, sportCfg) {
   if (sportCfg.scrape) {
@@ -75,14 +83,13 @@ async function processSport(sportKey, sportCfg) {
 
 async function processMatch(sportKey, sportCfg, event) {
   const eventId = String(event.id);
-  const normalized = sportCfg.scrape ? event : event;
+  const normalized = event;
 
   if (!normalized) {
     console.log(`[${sportKey}/${eventId}] Could not normalize event, skipping`);
     return;
   }
 
-  // For non-scrape sports, fetch detailed summary
   let extra = {};
   if (!sportCfg.scrape) {
     const leagueForSummary = event._sourceLeague || sportCfg.leagues[0];
@@ -110,7 +117,6 @@ async function processMatch(sportKey, sportCfg, event) {
     ? renderBoxingMatch(normalized)
     : renderMatchPage(normalized, sportCfg, extra);
   writeFileSync(join(pageDir, 'index.html'), html);
-  console.log(`[${sportKey}/${eventId}] Saved: ${sportCfg.dir}/${eventId}/${matchSlug}/index.html`);
 }
 
 function getSportLabel(key) {
@@ -133,6 +139,102 @@ async function fetchSportNews(sportCfg) {
   return [];
 }
 
+function buildMatchGroups(events, sportKey, sportCfg) {
+  if (!sportCfg.leagues || sportCfg.leagues.length <= 1) return null;
+  const groups = [];
+  for (const league of sportCfg.leagues) {
+    const leagueEvents = events.filter(e => e._sourceLeague === league);
+    if (leagueEvents.length === 0) continue;
+    const leagueSlug = getLeagueSlug(league);
+    const leagueName = getLeagueName(league);
+    const leagueLogo = getLeagueLogo(league);
+    groups.push({
+      label: leagueName,
+      slug: leagueSlug,
+      logo: leagueLogo,
+      leagueSlug,
+      sportKey,
+      events: leagueEvents
+    });
+  }
+  return groups;
+}
+
+async function generateLeaguePages(sportKey, sportCfg, allEvents) {
+  if (sportCfg.scrape) return;
+  if (sportCfg.sport !== 'soccer') return;
+
+  const leaguesToProcess = new Set();
+  for (const event of allEvents) {
+    if (event._sourceLeague) leaguesToProcess.add(event._sourceLeague);
+  }
+
+  for (const league of sportCfg.leagues) {
+    const leagueEvents = allEvents.filter(e => e._sourceLeague === league);
+    const leagueSlug = getLeagueSlug(league);
+    const leagueName = getLeagueName(league);
+    const leagueLogo = getLeagueLogo(league);
+
+    const leagueDir = join(SITE_DIR, sportCfg.dir, 'leagues', leagueSlug);
+    ensureDir(leagueDir);
+
+    // Fetch standings
+    let standings = [];
+    try {
+      const rawStandings = await fetchStandings(sportCfg.sport, league);
+      if (rawStandings) {
+        standings = extractStandings(rawStandings);
+      }
+    } catch (err) {
+      console.log(`[${sportKey}/${league}] Standings fetch failed: ${err.message}`);
+    }
+
+    const html = renderLeaguePage(sportCfg, leagueEvents, leagueSlug, leagueName, league, standings, leagueLogo);
+    writeFileSync(join(leagueDir, 'index.html'), html);
+    console.log(`[${sportKey}] League page: ${sportCfg.dir}/leagues/${leagueSlug}/index.html (${leagueEvents.length} events, ${standings.length} teams)`);
+  }
+}
+
+async function generateTeamPages(sportKey, sportCfg, allEvents, allSportEvents) {
+  if (sportCfg.sport !== 'soccer') return;
+
+  const teamMap = {};
+  for (const event of allEvents) {
+    const competitors = event._competitors || [];
+    for (const c of competitors) {
+      const t = c.team || c;
+      if (t && t.id) {
+        const tName = t.displayName || t.name || t.location || '';
+        if (!teamMap[t.id]) {
+          teamMap[t.id] = { id: t.id, name: tName, slug: slugify(tName), events: [] };
+        }
+        if (!teamMap[t.id].events.some(e => e.id === event.id)) {
+          teamMap[t.id].events.push(event);
+        }
+      }
+    }
+  }
+
+  // Add footer teams even if no events
+  for (const ft of FOOTER_TEAMS) {
+    if (!teamMap[ft.id]) {
+      teamMap[ft.id] = { id: ft.id, name: ft.name, slug: ft.slug, events: [] };
+    }
+  }
+
+  const teamDir = join(SITE_DIR, sportCfg.dir, 'team');
+  ensureDir(teamDir);
+
+  for (const [teamId, teamData] of Object.entries(teamMap)) {
+    const teamSlug = teamData.slug;
+    const tDir = join(teamDir, teamId, teamSlug);
+    ensureDir(tDir);
+    const html = renderTeamPage(sportCfg, teamData.events, teamId, teamData.name, teamSlug);
+    writeFileSync(join(tDir, 'index.html'), html);
+  }
+  console.log(`[${sportKey}] Generated ${Object.keys(teamMap).length} team pages`);
+}
+
 async function main() {
   console.log(`=== StreamEast Updater ===`);
   console.log(`Date: ${DATE_STR}`);
@@ -143,6 +245,7 @@ async function main() {
   if (!manifest.lastUpdate) manifest.lastUpdate = {};
 
   const allSportEvents = {};
+  const allSportNews = {};
 
   for (const [sportKey, sportCfg] of Object.entries(config)) {
     const events = await processSport(sportKey, sportCfg);
@@ -158,23 +261,31 @@ async function main() {
         manifest.events[eventKey] = { sport: sportKey, id: eventId, firstSeen: new Date().toISOString() };
       }
 
-      const alreadyExists = existsSync(join(SITE_DIR, sportCfg.dir, eventId));
-      if (!alreadyExists || true) {
-        await processMatch(sportKey, sportCfg, event);
-      }
+      await processMatch(sportKey, sportCfg, event);
     }
 
-    // Fetch news for this sport
     const newsArticles = await fetchSportNews(sportCfg);
+    allSportNews[sportKey] = newsArticles;
 
+    const matchGroups = buildMatchGroups(events, sportKey, sportCfg);
     const listingHtml = sportCfg.scrape
       ? renderBoxingListing(events)
-      : renderSportListing(sportCfg, events, getSportLabel(sportKey), { news: newsArticles });
+      : renderSportListing(sportCfg, events, getSportLabel(sportKey), { news: newsArticles, matchGroups });
     writeFileSync(join(dir, 'index.html'), listingHtml);
-    console.log(`[${sportKey}] Listing page updated${newsArticles.length ? ` (${newsArticles.length} news articles)` : ''}`);
+    console.log(`[${sportKey}] Listing page updated (${events.length} events${newsArticles.length ? `, ${newsArticles.length} news` : ''})`);
   }
 
-  const homepageHtml = renderHomepage(allSportEvents);
+  // Generate league pages for soccer
+  if (config.soccer) {
+    await generateLeaguePages('soccer', config.soccer, allSportEvents.soccer || []);
+  }
+
+  // Generate team pages for soccer
+  if (config.soccer) {
+    await generateTeamPages('soccer', config.soccer, allSportEvents.soccer || [], allSportEvents);
+  }
+
+  const homepageHtml = renderHomepage(allSportEvents, { news: allSportNews });
   writeFileSync(join(SITE_DIR, 'index.html'), homepageHtml);
   console.log('[homepage] Updated');
 

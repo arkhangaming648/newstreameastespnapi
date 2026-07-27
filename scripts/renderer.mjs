@@ -73,44 +73,47 @@ function navHeader(R) {
 }
 
 function footerHTML(R) {
-  return `<footer class="bg-dark text-white mt-5 pt-4 pb-2">
-<div class="container-lg">
-<div class="row mb-4"><div class="col-12 text-center mb-3"><p class="mb-1 fw-bold">Get connected with us on social networks:</p>
+  const l = (path) => `${R}${path}`;
+  return `<footer class="text-center text-lg-start bg-light text-muted">
+<section class="d-flex justify-content-center justify-content-lg-between p-3 border-bottom">
+<div class="me-5 d-none d-lg-block"><span>Get connected with us on social networks:</span></div>
 <div>
-<a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
-<a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
-<a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
-<a href="#" class="text-white me-3"><i class="fab fa-youtube"></i></a>
-<a href="#" class="text-white"><i class="fab fa-reddit-alien"></i></a>
-</div></div></div>
-<div class="row">
-<div class="col-md-4 mb-3">
-<h6 class="text-uppercase fw-bold">StreamEast</h6>
-<p class="small text-white-50">StreamEast offers news about sports events like football, basketball, hockey, soccer and college sports. Including game date and time, location and venue, standings, latest news from various sources and how to watch with TV schedule.</p>
+<a href="https://www.facebook.com/" class="me-4 text-reset"><i class="fab fa-facebook-f"></i></a>
+<a href="" class="me-4 text-reset"><i class="fab fa-twitter"></i></a>
+<a href="" class="me-4 text-reset"><i class="fab fa-google"></i></a>
+<a href="" class="me-4 text-reset"><i class="fab fa-instagram"></i></a>
+<a href="" class="me-4 text-reset"><i class="fab fa-linkedin"></i></a>
 </div>
-<div class="col-md-4 mb-3">
-<h6 class="text-uppercase fw-bold">Competitions</h6>
-<ul class="list-unstyled small">
-<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Champions League</a></li>
-<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Premier League</a></li>
-<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">LaLiga</a></li>
-<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Serie A</a></li>
-<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Ligue 1</a></li>
+</section>
+<section class=""><div class="container text-center text-md-start mt-3">
+<div class="row mt-3">
+<div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+<h6 class="text-uppercase fw-bold mb-4">StreamEast</h6>
+<p style="font-size:14px;">StreamEast offers news about sports events like football, basketball, hockey, soccer and college sports. Including game date and time, location and venue, standings, latest news from various sources and how to watch with TV schedule.</p>
+</div>
+<div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+<h6 class="text-uppercase fw-bold mb-4">Competitions</h6>
+<ul class="list-unstyled mb-0">
+<li><a class="linkUn text-muted" href="${l('soccer/leagues/uefa-champions-league/index.html')}">Champions League</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/leagues/english-premier-league/index.html')}">Premier League</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/leagues/spanish-laliga/index.html')}">LaLiga</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/leagues/italian-serie-a/index.html')}">Serie A</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/leagues/french-ligue-1/index.html')}">Ligue 1</a></li>
 </ul>
 </div>
-<div class="col-md-4 mb-3">
-<h6 class="text-uppercase fw-bold">Teams</h6>
-<ul class="list-unstyled small">
-<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Liverpool</a></li>
-<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Manchester United</a></li>
-<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Real Madrid</a></li>
-<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Barcelona</a></li>
-<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Paris Saint-Germain</a></li>
+<div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+<h6 class="text-uppercase fw-bold mb-4">Teams</h6>
+<ul class="list-unstyled mb-0">
+<li><a class="linkUn text-muted" href="${l('soccer/team/364/liverpool/index.html')}">Liverpool</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/team/360/manchester-united/index.html')}">Manchester United</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/team/86/real-madrid/index.html')}">Real Madrid</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/team/83/barcelona/index.html')}">Barcelona</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/team/160/paris-saint-germain/index.html')}">Paris Saint-Germain</a></li>
 </ul>
 </div>
-</div>
-<div class="row"><div class="col-12 text-center"><p class="small text-white-50 mb-0">&copy;2026 Streameast</p></div></div>
-</div></footer>`;
+</div></div></section>
+<div class="text-center p-3" style="background-color:rgba(0,0,0,0.2);">&copy;2025 <a href="https://streameast.gl/" class="text-reset">Streameast</a></div>
+</footer>`;
 }
 
 function renderStatsTable(statsArray, homeName, awayName) {
@@ -267,9 +270,114 @@ ${footerHTML(R)}
 </body></html>`;
 }
 
+function renderLeaguePage(sportCfg, leagueEvents, leagueSlug, leagueName, leagueId, standings, leagueLogo) {
+  const R = '../';
+  const items = leagueEvents.map(m => {
+    const competitors = m._competitors || [];
+    const home = extractTeam(competitors, 'home');
+    const away = extractTeam(competitors, 'away');
+    const dateISO = m.date;
+    const slug = m.shortName ? slugify(m.shortName) : m.id;
+    const href = `../../${m.id}/${slug}/index.html`;
+    return `<a href="${href}" class="matches" aria-label="${esc(m.name)}">
+<div class="matches-block border rounded-3 d-block ripple"><div class="matches-main"><div class="matches-team"><div class="team-line centered">
+<div class="col-3-list">${home&&home.logo?`<img class="team-logo animation fade-in" src="${home.logo}" width="40" height="40" loading="lazy" alt="${esc(home.abbreviation)}">`:''}<span class="team-name">${esc(home?home.name:'')}</span></div>
+<span class="prediction-score"><span class="matches-time"><div class="truncate">${formatTime(dateISO)}</div></span><span class="matches-time text-center"><span class="fw-bold fs-6">vs</span></span><span class="league text-center"></span></span>
+<div class="col-3-list">${away&&away.logo?`<img class="team-logo animation fade-in" src="${away.logo}" width="40" height="40" loading="lazy" alt="${esc(away.abbreviation)}">`:''}<span class="team-name">${esc(away?away.name:'')}</span></div>
+</div></div></div></div></a>`;
+  }).join('\n');
+
+  const standingsTable = standings && standings.length > 0 ? `<div style="mb-3">
+<table class="table table-striped table-responsive text-center" style="font-size:13px;">
+<thead><tr><th title="Rank">#</th><th class="text-start">TEAM</th><th title="Games Played">GP</th><th title="Goal Difference">GD</th><th title="Points">PTS</th></tr></thead>
+<tbody>${standings.slice(0,20).map(s => `<tr>
+<td>${s.rank}</td>
+<td class="text-start text-nowrap"><a class="linkUn" href="../team/${s.teamId}/${slugify(s.teamName)}/index.html">${esc(s.teamName)}</a></td>
+<td>${s.gp}</td><td>${s.gd}</td><td>${s.pts}</td>
+</tr>`).join('\n')}</tbody></table></div>
+<div class="d-grid gap-2"><a class="btn btn-light btn-sm w-100 mb-3" data-mdb-ripple-color="dark" href="#">Full Standings</a></div>` : '';
+
+  return `<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="index,follow">
+<title>${esc(leagueName)} Scores and Fixtures</title>
+<meta name="description" content="Get ${esc(leagueName)} Live Scores, Fixtures, Results, Schedules, News and Live Streams">
+<link rel="canonical" href="index.html"><link rel="shortcut icon" href="${R}nav.png" type="image/png">
+<link rel="stylesheet" href="${R}assets/css/style.css" type="text/css">
+<link rel="preload" href="${R}assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<meta name="theme-color" content="#8B2E3D"></head>
+<body>
+${navHeader(R)}
+<main class="container-lg"><div class="list-matches px-2"><div id="tbody3">
+<nav aria-label="breadcrumb"><ol class="breadcrumb">
+<li class="breadcrumb-item"><a class="linkUn" href="${R}index.html">Home</a></li>
+<li class="breadcrumb-item"><a class="linkUn" href="../index.html">Football</a></li>
+<li class="breadcrumb-item active">${esc(leagueName)}</li>
+</ol></nav>
+<div class="float-end"><a class="btn btn-light btn-sm" href="../standings/${leagueSlug}/index.html">Table</a></div>
+<h1 class="h1title mb-3">${leagueLogo ? `<img alt="${esc(leagueName)}" src="${leagueLogo}" width="40" height="40" style="vertical-align:top;">` : ''}<span class="">${esc(leagueName)}</span></h1>
+<div class="row">
+<div class="col-md-8 px-3">
+<h2 class="widgetTitle text-start">${esc(leagueName)} Scores and Fixtures</h2>
+<div class="px-1 my-3"></div>
+<h2 class="card-title my-3 fw-bold" style="color:#00222e;font-family:Monda;font-size:1rem;"></h2>
+${items || '<p class="text-muted">No matches found for today.</p>'}
+</div>
+<div class="col-md-4 px-3">
+<h2 class="widgetTitle">${esc(leagueName)} Table</h2>
+${standingsTable}
+</div>
+</div></div></main>
+${footerHTML(R)}
+<script src="${R}js/app_ver%3D1698506434.js"></script>
+</body></html>`;
+}
+
+function renderTeamPage(sportCfg, teamEvents, teamId, teamName, teamSlug) {
+  const R = '../';
+  const items = teamEvents.map(m => {
+    const competitors = m._competitors || [];
+    const home = extractTeam(competitors, 'home');
+    const away = extractTeam(competitors, 'away');
+    const dateISO = m.date;
+    const slug = m.shortName ? slugify(m.shortName) : m.id;
+    const href = `../../${m.id}/${slug}/index.html`;
+    return `<a href="${href}" class="matches" aria-label="${esc(m.name)}">
+<div class="matches-block border rounded-3 d-block ripple"><div class="matches-main"><div class="matches-team"><div class="team-line centered">
+<div class="col-3-list">${home&&home.logo?`<img class="team-logo animation fade-in" src="${home.logo}" width="40" height="40" loading="lazy" alt="${esc(home.abbreviation)}">`:''}<span class="team-name">${esc(home?home.name:'')}</span></div>
+<span class="prediction-score"><span class="matches-time"><div class="truncate">${formatTime(dateISO)}</div></span><span class="matches-time text-center"><span class="fw-bold fs-6">vs</span></span><span class="league text-center"></span></span>
+<div class="col-3-list">${away&&away.logo?`<img class="team-logo animation fade-in" src="${away.logo}" width="40" height="40" loading="lazy" alt="${esc(away.abbreviation)}">`:''}<span class="team-name">${esc(away?away.name:'')}</span></div>
+</div></div></div></div></a>`;
+  }).join('\n');
+
+  return `<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="index,follow">
+<title>${esc(teamName)} - StreamEast</title>
+<link rel="canonical" href="index.html"><link rel="shortcut icon" href="${R}nav.png" type="image/png">
+<link rel="stylesheet" href="${R}assets/css/style.css" type="text/css">
+<link rel="preload" href="${R}assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<meta name="theme-color" content="#8B2E3D"></head>
+<body>
+${navHeader(R)}
+<main class="container-lg"><div class="list-matches px-2"><div id="tbody3">
+<nav aria-label="breadcrumb"><ol class="breadcrumb">
+<li class="breadcrumb-item"><a class="linkUn" href="${R}index.html">Home</a></li>
+<li class="breadcrumb-item"><a class="linkUn" href="../index.html">Football</a></li>
+<li class="breadcrumb-item active">${esc(teamName)}</li>
+</ol></nav>
+<h1 class="h1title mb-3"><span class="">${esc(teamName)}</span></h1>
+<div class="row"><div class="col-12">
+<h2 class="widgetTitle text-start">${esc(teamName)} Fixtures &amp; Results</h2>
+${items || '<p class="text-muted">No upcoming matches for this team.</p>'}
+</div></div></div></main>
+${footerHTML(R)}
+<script src="${R}js/app_ver%3D1698506434.js"></script>
+</body></html>`;
+}
+
 function renderSportListing(sportCfg, matches, sportLabel, extra) {
   extra = extra || {};
   const newsArticles = extra.news || [];
+  const matchGroups = extra.matchGroups || null;
   const R = '../';
 
   const items = matches.map(m => {
@@ -281,69 +389,148 @@ function renderSportListing(sportCfg, matches, sportLabel, extra) {
     const href = `${m.id}/${slug}/index.html`;
     return `<a href="${href}" class="matches" aria-label="${esc(m.name)}">
 <div class="matches-block border rounded-3 d-block ripple"><div class="matches-main"><div class="matches-team"><div class="team-line centered">
-<div class="col-3-list">${home&&home.logo?`<img class="team-logo" src="${home.logo}" width="40" height="40" loading="lazy" alt="${esc(home.abbreviation)}">`:''}<span class="team-name">${esc(home?home.name:'')}</span></div>
+<div class="col-3-list">${home&&home.logo?`<img class="team-logo animation fade-in" src="${home.logo}" width="40" height="40" loading="lazy" alt="${esc(home.abbreviation)}">`:''}<span class="team-name">${esc(home?home.name:'')}</span></div>
 <span class="prediction-score"><span class="matches-time"><div class="truncate">${formatTime(dateISO)}</div></span><span class="matches-time text-center"><span class="fw-bold fs-6">vs</span></span><span class="league text-center"></span></span>
-<div class="col-3-list">${away&&away.logo?`<img class="team-logo" src="${away.logo}" width="40" height="40" loading="lazy" alt="${esc(away.abbreviation)}">`:''}<span class="team-name">${esc(away?away.name:'')}</span></div>
+<div class="col-3-list">${away&&away.logo?`<img class="team-logo animation fade-in" src="${away.logo}" width="40" height="40" loading="lazy" alt="${esc(away.abbreviation)}">`:''}<span class="team-name">${esc(away?away.name:'')}</span></div>
 </div></div></div></div></a>`;
   }).join('\n');
 
+  const leftContent = matchGroups
+    ? matchGroups.map((g, i) => {
+        const isFirst = i === 0;
+        const groupItems = g.events.map(m => {
+          const c = m._competitors || [];
+          const h = extractTeam(c, 'home');
+          const a = extractTeam(c, 'away');
+          const d = m.date;
+          const s = m.shortName ? slugify(m.shortName) : m.id;
+          return `<a href="${m.id}/${s}/index.html" class="matches" aria-label="${esc(m.name)}">
+<div class="matches-block border rounded-3 d-block ripple"><div class="matches-main"><div class="matches-team"><div class="team-line centered">
+<div class="col-3-list">${h&&h.logo?`<img class="team-logo animation fade-in" src="${h.logo}" width="40" height="40" loading="lazy" alt="${esc(h.abbreviation)}">`:''}<span class="team-name">${esc(h?h.name:'')}</span></div>
+<span class="prediction-score"><span class="matches-time"><div class="truncate">${formatTime(d)}</div></span><span class="matches-time text-center"><span class="fw-bold fs-6">vs</span></span><span class="league text-center"></span></span>
+<div class="col-3-list">${a&&a.logo?`<img class="team-logo animation fade-in" src="${a.logo}" width="40" height="40" loading="lazy" alt="${esc(a.abbreviation)}">`:''}<span class="team-name">${esc(a?a.name:'')}</span></div>
+</div></div></div></div></a>`;
+        }).join('\n');
+        const accordionId = `sport-group-${i}`;
+        return `<div class="accordion-item border-0">
+<h2 class="accordion-header" style="color:#00222e;font-family:Monda;font-size:1rem;">
+<button class="accordion-button ${isFirst?'':'collapsed'} py-2" type="button" data-mdb-toggle="collapse" data-mdb-target="#${accordionId}" style="box-shadow:unset;border-top:1px solid #ecedef;font-family:Verdana,Arial,Helvetica,sans-serif;color:#333;font-weight:600;white-space:nowrap;">
+<a href="${g.leagueSlug ? R+g.sportKey+'/leagues/'+g.leagueSlug+'/index.html' : '#'}" style="text-decoration:none;color:inherit;" data-mdb-toggle="tooltip" title="See All">
+${g.logo ? `<img alt="${esc(g.label)}" src="${g.logo}" width="40" height="40" style="margin-right:5px;">` : ''}</a>${esc(g.label)}
+</button></h2>
+<div id="${accordionId}" class="accordion-collapse collapse ${isFirst?'show':''}" style="overflow-x:auto;">
+<div class="accordion-body px-0 pt-0 pb-3">${groupItems}</div></div></div>`;
+      }).join('\n')
+    : items;
+
+  const title = esc(sportLabel);
+  const sportIcon = sportCfg.sport === 'soccer' ? 'https://a.espncdn.com/combiner/i?img=/redesign/assets/img/icons/ESPN-icon-soccer.png&h=80&w=80&scale=crop&cquality=40' : '';
+
   return `<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="index,follow">
-<title>${esc(sportLabel)} Streams | Live ${esc(sportLabel)} Events</title>
+<title>${title} Streams | Live ${title} Events</title>
 <link rel="canonical" href="index.html"><link rel="shortcut icon" href="${R}nav.png" type="image/png">
 <link rel="stylesheet" href="${R}assets/css/style.css" type="text/css">
 <link rel="preload" href="${R}assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <meta name="theme-color" content="#8B2E3D"></head>
 <body>
 ${navHeader(R)}
-<main class="container-lg py-5">
-<nav aria-label="breadcrumb"><ol class="breadcrumb text-secondary"><li class="breadcrumb-item"><a href="${R}index.html" class="text-danger">Home</a></li><li class="breadcrumb-item active">${esc(sportLabel)}</li></ol></nav>
-<hr class="border-danger border-5 mb-4 w-250 mx-auto">
-${items ? `<div class="row g-3">${items}</div>` : '<div class="col-12 text-center text-white"><p>No upcoming matches found.</p></div>'}
-${renderNews(newsArticles, R, sportLabel)}
-</main>
+<main class="container-lg overflow-auto"><div class="list-matches px-2"><div id="tbody3">
+<nav aria-label="breadcrumb"><ol class="breadcrumb text-secondary"><li class="breadcrumb-item"><a href="${R}index.html" class="text-danger">Home</a></li><li class="breadcrumb-item active">${title}</li></ol></nav>
+<div class="row gx-3">
+<div class="${newsArticles.length ? 'col-md-8' : 'col-12'} py-2">
+${sportIcon ? `<h1 class="h1title"><img alt="${title}" src="${sportIcon}" width="40" height="40" style="width:40px;height:40px;vertical-align:top;"><span class="">${title} Fixtures</span></h1>` : ''}
+<div class="league-section row mx-0 mb-1 shadow-none" style="padding:0.75rem 0.25rem;"></div>
+${matchGroups ? leftContent : `<div class="row g-3">${items || '<div class="col-12 text-center text-white"><p>No upcoming matches found.</p></div>'}</div>`}
+</div>
+${newsArticles.length ? `<div class="col-md-4 py-2"><div class="league-section p-0"><h3 class="card-header">${title} Headlines</h3><div class="card-body">${newsArticles.slice(0,6).map(a => {
+  const img = a.images && a.images[0] ? a.images[0].url || a.images[0].href || a.images[0].src : (a.image ? a.image.url || a.image.href || a.image.src : '');
+  return `${img ? `<img class="news-image-h animation fade-in" src="${img}" width="360" height="144" loading="lazy" alt="${esc(a.headline||'')}" style="max-width:100%;height:auto;" onerror="this.remove()">` : ''}
+<span class="side-news-title">${esc(a.headline||'')}</span>
+<p class="card-text side-news-desc">${esc(a.description||a.caption||'')}</p>`;
+}).join('\n')}</div></div></div>` : ''}
+</div></div></main>
 ${footerHTML(R)}
+<script type="text/javascript" src="${R}assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="${R}assets/js/mdb.min.js"></script>
 </body></html>`;
 }
+
+const SPORT_ICONS = {
+  soccer: 'https://a.espncdn.com/combiner/i?img=/redesign/assets/img/icons/ESPN-icon-soccer.png&h=80&w=80&scale=crop&cquality=40',
+  nba: 'https://a.espncdn.com/combiner/i?img=/redesign/assets/img/icons/ESPN-icon-basketball.png&h=80&w=80&scale=crop&cquality=40',
+  nfl: 'https://a.espncdn.com/combiner/i?img=/redesign/assets/img/icons/ESPN-icon-football.png&h=80&w=80&scale=crop&cquality=40',
+  nhl: 'https://a.espncdn.com/combiner/i?img=/redesign/assets/img/icons/ESPN-icon-hockey.png&h=80&w=80&scale=crop&cquality=40',
+  mlb: 'https://a.espncdn.com/combiner/i?img=/redesign/assets/img/icons/ESPN-icon-baseball.png&h=80&w=80&scale=crop&cquality=40',
+  mma: 'https://a.espncdn.com/combiner/i?img=/redesign/assets/img/icons/ESPN-icon-mma.png&h=80&w=80&scale=crop&cquality=40',
+  boxing: 'https://a.espncdn.com/combiner/i?img=/redesign/assets/img/icons/ESPN-icon-boxing.png&h=80&w=80&scale=crop&cquality=40',
+  f1: 'https://a.espncdn.com/combiner/i?img=/redesign/assets/img/icons/ESPN-icon-f1.png&h=80&w=80&scale=crop&cquality=40'
+};
 
 function renderHomepage(sportMatches, extra) {
   extra = extra || {};
   const allNews = extra.news || {};
   const R = '';
 
-  const sections = Object.entries(sportMatches).filter(([,ms])=>ms&&ms.length).map(([name,matches])=>{
+  const sections = Object.entries(sportMatches).filter(([,ms])=>ms&&ms.length).map(([name,matches], idx)=>{
     const label = name.charAt(0).toUpperCase()+name.slice(1);
-    return `<div class="sport mb-4"><h2 class="h-title">${esc(label)}</h2>${matches.slice(0,10).map(m=>{
+    const icon = SPORT_ICONS[name] || '';
+    const isFirst = idx === 0;
+    const accordionId = `home-sport-${name}`;
+    const groupItems = matches.slice(0,10).map(m=>{
       const competitors = m._competitors || [];
       const home = extractTeam(competitors, 'home');
       const away = extractTeam(competitors, 'away');
       const dateISO = m.date;
       const slug = m.shortName ? slugify(m.shortName) : m.id;
-      return `<a href="${name}/${m.id}/${slug}/index.html" class="matches"><div class="matches-block border rounded-3 d-block ripple"><div class="matches-main"><div class="matches-team"><div class="team-line centered">
-<div class="col-3-list">${home&&home.logo?`<img class="team-logo" src="${home.logo}" width="40" height="40" loading="lazy" alt="">`:''}<span class="team-name">${esc(home?home.name:'')}</span></div>
-<span class="prediction-score"><span class="matches-time"><div class="truncate">${formatTime(dateISO)}</div></span><span class="matches-time text-center"><span class="fw-bold fs-6">vs</span></span></span>
-<div class="col-3-list">${away&&away.logo?`<img class="team-logo" src="${away.logo}" width="40" height="40" loading="lazy" alt="">`:''}<span class="team-name">${esc(away?away.name:'')}</span></div>
+      return `<a href="${name}/${m.id}/${slug}/index.html" class="matches" aria-label="${esc(m.name)}">
+<div class="matches-block border rounded-3 d-block ripple"><div class="matches-main"><div class="matches-team"><div class="team-line centered">
+<div class="col-3-list">${home&&home.logo?`<img class="team-logo animation fade-in" src="${home.logo}" width="40" height="40" loading="lazy" alt="${esc(home.abbreviation)}">`:''}<span class="team-name">${esc(home?home.name:'')}</span></div>
+<span class="prediction-score"><span class="matches-time"><div class="truncate">${formatTime(dateISO)}</div></span><span class="matches-time text-center"><span class="fw-bold fs-6">vs</span></span><span class="league text-center"></span></span>
+<div class="col-3-list">${away&&away.logo?`<img class="team-logo animation fade-in" src="${away.logo}" width="40" height="40" loading="lazy" alt="${esc(away.abbreviation)}">`:''}<span class="team-name">${esc(away?away.name:'')}</span></div>
 </div></div></div></div></a>`;
-    }).join('\n')}</div>`;
+    }).join('\n');
+    return `<div class="accordion-item border-0">
+<h2 class="accordion-header" style="color:#00222e;font-family:Monda;font-size:1rem;">
+<button class="accordion-button ${isFirst?'':'collapsed'} py-2" type="button" data-mdb-toggle="collapse" data-mdb-target="#${accordionId}" style="box-shadow:unset;border-top:1px solid #ecedef;font-family:Verdana,Arial,Helvetica,sans-serif;color:#333;font-weight:600;white-space:nowrap;">
+<a href="${name}/index.html" style="text-decoration:none;color:inherit;" data-mdb-toggle="tooltip" title="See All">
+${icon ? `<img alt="${esc(label)}" src="${icon}" width="40" height="40" style="margin-right:5px;">` : ''}</a>${esc(label)}
+</button></h2>
+<div id="${accordionId}" class="accordion-collapse collapse ${isFirst?'show':''}" style="overflow-x:auto;">
+<div class="accordion-body px-0 pt-0 pb-3">${groupItems}</div></div></div>`;
   }).join('\n');
+
+  const allNewsItems = Object.values(allNews).flat().slice(0,6);
 
   return `<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="index,follow">
-<title>StreamEast - Free Live Sports Streaming HD | NFL, NBA, UFC, Soccer &amp; MMA</title>
-<meta name="description" content="StreamEast delivers free HD live sports.">
+<title>StreamEast — Free Live Sports Streaming HD | NFL, NBA, UFC, Soccer &amp; MMA</title>
+<meta name="description" content="StreamEast delivers free HD live sports. Watch NBA, NFL, NHL, MLB, UFC, Soccer, MMA, and football streams online — no sign-up required Just watch every streams in HD for free.">
 <link rel="canonical" href="index.html"><link rel="shortcut icon" href="nav.png" type="image/png">
 <link rel="stylesheet" href="assets/css/style.css" type="text/css">
 <link rel="preload" href="assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <meta property="og:title" content="StreamEast - Free Live Sports Streaming">
-<meta property="og:description" content="Watch live streaming free HD.">
+<meta property="og:description" content="StreamEast delivers free HD live sports.">
 <meta property="og:image" content="og.webp"><meta name="theme-color" content="#8B2E3D"></head>
 <body>
 ${navHeader(R)}
-<main class="container-lg py-5"><div class="row"><div class="col-12">
-${sections||'<p class="text-white text-center">Loading matches...</p>'}
+<main class="container-lg overflow-auto"><div class="list-matches px-2"><div id="tbody3">
+<div class="row gx-3">
+<div class="${allNewsItems.length ? 'col-md-8' : 'col-12'} py-2">
+<h1 class="h1title mb-3">Today's Matches</h1>
+${sections||'<p class="text-muted text-center">No matches found for today.</p>'}
+</div>
+${allNewsItems.length ? `<div class="col-md-4 py-2"><div class="league-section p-0"><h3 class="card-header">Headlines</h3><div class="card-body">${allNewsItems.map(a => {
+  const img = a.images && a.images[0] ? a.images[0].url || a.images[0].href || a.images[0].src : (a.image ? a.image.url || a.image.href || a.image.src : '');
+  return `${img ? `<img class="news-image-h animation fade-in" src="${img}" width="360" height="144" loading="lazy" alt="${esc(a.headline||'')}" style="max-width:100%;height:auto;" onerror="this.remove()">` : ''}
+<span class="side-news-title">${esc(a.headline||'')}</span>
+<p class="card-text side-news-desc">${esc(a.description||a.caption||'')}</p>`;
+}).join('\n')}</div></div></div>` : ''}
 </div></div></main>
 ${footerHTML(R)}
+<script type="text/javascript" src="assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="assets/js/mdb.min.js"></script>
 </body></html>`;
 }
 
-export { renderMatchPage, renderSportListing, renderHomepage, slugify };
+export { renderMatchPage, renderSportListing, renderHomepage, renderLeaguePage, renderTeamPage, slugify };
