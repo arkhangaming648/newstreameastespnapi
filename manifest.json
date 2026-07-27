@@ -3,212 +3,115 @@
     "soccer/401886548": {
       "sport": "soccer",
       "id": "401886548",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:06:45.494Z"
-=======
-      "firstSeen": "2026-07-27T18:27:40.439Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:33:40.970Z"
     },
     "soccer/401860260": {
       "sport": "soccer",
       "id": "401860260",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:06:46.423Z"
-=======
-      "firstSeen": "2026-07-27T18:27:42.400Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:33:41.741Z"
     },
     "soccer/401860259": {
       "sport": "soccer",
       "id": "401860259",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:06:47.170Z"
-=======
-      "firstSeen": "2026-07-27T18:27:43.404Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:33:42.537Z"
     },
     "soccer/401860257": {
       "sport": "soccer",
       "id": "401860257",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:06:47.942Z"
-=======
-      "firstSeen": "2026-07-27T18:27:44.699Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:33:43.314Z"
     },
     "soccer/401842766": {
       "sport": "soccer",
       "id": "401842766",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:06:48.805Z"
-=======
-      "firstSeen": "2026-07-27T18:27:45.040Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:33:44.134Z"
     },
     "soccer/401873927": {
       "sport": "soccer",
       "id": "401873927",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:06:49.535Z"
-=======
-      "firstSeen": "2026-07-27T18:27:47.018Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:33:44.889Z"
     },
     "soccer/401874475": {
       "sport": "soccer",
       "id": "401874475",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:06:50.438Z"
-=======
-      "firstSeen": "2026-07-27T18:27:47.587Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:33:45.759Z"
     },
     "soccer/401850602": {
       "sport": "soccer",
       "id": "401850602",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:06:51.098Z"
-=======
-      "firstSeen": "2026-07-27T18:27:49.364Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:33:46.490Z"
     },
     "mlb/401816288": {
       "sport": "mlb",
       "id": "401816288",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:06:58.308Z"
-=======
-      "firstSeen": "2026-07-27T18:27:57.695Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:33:53.671Z"
     },
     "mlb/401816280": {
       "sport": "mlb",
       "id": "401816280",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:06:59.179Z"
-=======
-      "firstSeen": "2026-07-27T18:27:58.008Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:33:54.483Z"
     },
     "mlb/401816282": {
       "sport": "mlb",
       "id": "401816282",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:06:59.903Z"
-=======
-      "firstSeen": "2026-07-27T18:27:58.791Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:33:55.278Z"
     },
     "mlb/401816284": {
       "sport": "mlb",
       "id": "401816284",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:07:00.709Z"
-=======
-      "firstSeen": "2026-07-27T18:27:59.872Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:33:56.083Z"
     },
     "mlb/401816285": {
       "sport": "mlb",
       "id": "401816285",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:07:01.510Z"
-=======
-      "firstSeen": "2026-07-27T18:28:01.550Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:33:56.887Z"
     },
     "mlb/401816283": {
       "sport": "mlb",
       "id": "401816283",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:07:02.309Z"
-=======
-      "firstSeen": "2026-07-27T18:28:02.714Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:33:57.683Z"
     },
     "mlb/401816281": {
       "sport": "mlb",
       "id": "401816281",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:07:03.126Z"
-=======
-      "firstSeen": "2026-07-27T18:28:04.109Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:33:58.513Z"
     },
     "mlb/401816287": {
       "sport": "mlb",
       "id": "401816287",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:07:03.900Z"
-=======
-      "firstSeen": "2026-07-27T18:28:05.214Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:33:59.287Z"
     },
     "mlb/401816286": {
       "sport": "mlb",
       "id": "401816286",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:07:04.725Z"
-=======
-      "firstSeen": "2026-07-27T18:28:06.540Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:34:00.142Z"
     },
     "mlb/401816290": {
       "sport": "mlb",
       "id": "401816290",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:07:05.498Z"
-=======
-      "firstSeen": "2026-07-27T18:28:06.840Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:34:00.889Z"
     },
     "mlb/401816289": {
       "sport": "mlb",
       "id": "401816289",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:07:06.314Z"
-=======
-      "firstSeen": "2026-07-27T18:28:07.632Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:34:01.690Z"
     },
     "mlb/401816291": {
       "sport": "mlb",
       "id": "401816291",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:07:07.098Z"
-=======
-      "firstSeen": "2026-07-27T18:28:08.874Z"
-    },
-    "boxing/6a26e78f6838b8112679eb08": {
-      "sport": "boxing",
-      "id": "6a26e78f6838b8112679eb08",
-      "firstSeen": "2026-07-27T18:28:16.721Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:34:02.497Z"
     },
     "boxing/69f2a2182db7a04b90e059a7": {
       "sport": "boxing",
       "id": "69f2a2182db7a04b90e059a7",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:07:13.710Z"
-=======
-      "firstSeen": "2026-07-27T18:28:16.742Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+      "firstSeen": "2026-07-27T18:34:10.272Z"
     },
     "boxing/6a09056db2611e750decd228": {
       "sport": "boxing",
       "id": "6a09056db2611e750decd228",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T18:07:13.739Z"
+      "firstSeen": "2026-07-27T18:34:10.311Z"
     }
   },
   "lastUpdate": {
-    "20260727": "2026-07-27T18:09:39.889Z"
-=======
-      "firstSeen": "2026-07-27T18:28:16.743Z"
-    }
-  },
-  "lastUpdate": {
-    "20260727": "2026-07-27T18:30:53.258Z"
->>>>>>> 5b2c5a7 (Seed team pages from standings: 437 teams; skip API calls for teams without events; fix determineTeamPrimaryLeague for standings)
+    "20260727": "2026-07-27T18:36:33.514Z"
   }
 }
