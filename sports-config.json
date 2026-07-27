@@ -1,0 +1,51 @@
+{
+  "soccer": {
+    "sport": "soccer",
+    "leagues": ["eng.1", "esp.1", "ger.1", "ita.1", "fra.1", "uefa.champions", "uefa.europa", "usa.1", "club.friendly", "bra.1", "bra.2", "arg.1", "swe.1", "nor.1", "den.1", "por.1", "chi.1", "par.1", "aut.1", "bel.1", "tur.1", "uefa.champions_qual", "uefa.europa_qual", "conmebol.sudamericana", "fifa.friendly", "mex.1", "ned.1", "sco.1", "gre.1", "jpn.1", "ksa.1", "usa.nwsl"],
+    "dir": "soccer",
+    "teamDir": true
+  },
+  "nba": {
+    "sport": "basketball",
+    "leagues": ["nba"],
+    "dir": "nba",
+    "teamDir": false
+  },
+  "nfl": {
+    "sport": "football",
+    "leagues": ["nfl"],
+    "dir": "nfl",
+    "teamDir": false
+  },
+  "nhl": {
+    "sport": "hockey",
+    "leagues": ["nhl"],
+    "dir": "nhl",
+    "teamDir": false
+  },
+  "mlb": {
+    "sport": "baseball",
+    "leagues": ["mlb"],
+    "dir": "mlb",
+    "teamDir": false
+  },
+  "mma": {
+    "sport": "mma",
+    "leagues": ["ufc", "pfl", "bellator"],
+    "dir": "mma",
+    "teamDir": false
+  },
+  "f1": {
+    "sport": "racing",
+    "leagues": ["f1"],
+    "dir": "f1",
+    "teamDir": false
+  },
+  "boxing": {
+    "sport": "boxing",
+    "leagues": [],
+    "dir": "boxing",
+    "teamDir": false,
+    "scrape": true
+  }
+}
