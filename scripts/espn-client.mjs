@@ -1,7 +1,7 @@
 const BASE_SITE = 'https://site.api.espn.com/apis/site/v2/sports';
 const BASE_WEB = 'https://site.web.api.espn.com/apis/v2/sports';
 
-const DELAY_MS = 1200;
+const DELAY_MS = 800;
 let lastRequestTime = 0;
 
 async function rateLimit() {
@@ -13,20 +13,31 @@ async function rateLimit() {
   lastRequestTime = Date.now();
 }
 
+const FETCH_TIMEOUT_MS = 15000;
+
 async function fetchJSON(url) {
   await rateLimit();
-  const res = await fetch(url, {
-    headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' }
-  });
-  if (!res.ok) {
-    if (res.status === 404) return null;
-    throw new Error(`ESPN API ${res.status}: ${url}`);
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  try {
+    const res = await fetch(url, {
+      signal: controller.signal,
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' }
+    });
+    if (!res.ok) {
+      if (res.status === 404) return null;
+      throw new Error(`ESPN API ${res.status}: ${url}`);
+    }
+    return res.json();
+  } finally {
+    clearTimeout(timer);
   }
-  return res.json();
 }
 
 function getScoreboardURL(sport, league, dateStr) {
-  return `${BASE_SITE}/${sport}/${league}/scoreboard?dates=${dateStr}`;
+  let url = `${BASE_SITE}/${sport}/${league}/scoreboard`;
+  if (dateStr) url += `?dates=${dateStr}`;
+  return url;
 }
 
 function getSummaryURL(sport, league, eventId) {

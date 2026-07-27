@@ -164,36 +164,65 @@ async function generateLeaguePages(sportKey, sportCfg, allEvents) {
   if (sportCfg.scrape) return;
   if (sportCfg.sport !== 'soccer') return;
 
-  const leaguesToProcess = new Set();
-  for (const event of allEvents) {
-    if (event._sourceLeague) leaguesToProcess.add(event._sourceLeague);
+  // Group leagues by slug (e.g. uefa.champions + uefa.champions_qual → uefa-champions-league)
+  const slugGroups = {};
+  for (const league of sportCfg.leagues) {
+    const slug = getLeagueSlug(league);
+    if (!slugGroups[slug]) slugGroups[slug] = [];
+    slugGroups[slug].push(league);
   }
 
-  for (const league of sportCfg.leagues) {
-    const leagueEvents = allEvents.filter(e => e._sourceLeague === league);
-    const leagueSlug = getLeagueSlug(league);
-    const leagueName = getLeagueName(league);
-    const leagueLogo = getLeagueLogo(league);
+  for (const [leagueSlug, leagues] of Object.entries(slugGroups)) {
+    const primaryLeague = leagues[0];
+    const leagueName = getLeagueName(primaryLeague);
+    const leagueLogo = getLeagueLogo(primaryLeague);
+
+    // Aggregate events from all leagues sharing this slug
+    let leagueEvents = allEvents.filter(e => e._sourceLeague && leagues.includes(e._sourceLeague));
+
+    // Fallback: if no events found, try fetching without date for each league in the group
+    if (leagueEvents.length === 0) {
+      for (const league of leagues) {
+        try {
+          const raw = await fetchScoreboard(sportCfg.sport, league, '');
+          const fallbackEvents = extractEvents(raw).map(e => {
+            const n = normalizeEvent(e);
+            if (n) n._sourceLeague = league;
+            return n;
+          }).filter(Boolean);
+          if (fallbackEvents.length > 0) {
+            leagueEvents.push(...fallbackEvents);
+            console.log(`[${sportKey}/${league}] Fallback (no date) — ${fallbackEvents.length} events`);
+          }
+        } catch (err) {
+          console.log(`[${sportKey}/${league}] Fallback scoreboard fetch failed: ${err.message}`);
+        }
+      }
+    }
 
     const leagueDir = join(SITE_DIR, sportCfg.dir, 'leagues', leagueSlug);
     ensureDir(leagueDir);
 
-    // Fetch standings (v2 first, fallback to v1)
+    // Fetch standings (v2 first, fallback to v1) — try all leagues in group
     let standings = [];
-    try {
-      const rawStandings = await fetchStandingsV2(sportCfg.sport, league);
-      if (rawStandings) standings = extractStandingsV2(rawStandings);
-    } catch { /* silent */ }
-    if (standings.length === 0) {
+    for (const league of leagues) {
       try {
-        const rawStandings = await fetchStandings(sportCfg.sport, league);
-        if (rawStandings) standings = extractStandings(rawStandings);
-      } catch (err) {
-        console.log(`[${sportKey}/${league}] Standings fetch failed: ${err.message}`);
+        const rawStandings = await fetchStandingsV2(sportCfg.sport, league);
+        if (rawStandings) standings = extractStandingsV2(rawStandings);
+      } catch { /* silent */ }
+      if (standings.length > 0) break;
+    }
+    if (standings.length === 0) {
+      for (const league of leagues) {
+        try {
+          const rawStandings = await fetchStandings(sportCfg.sport, league);
+          if (rawStandings) standings = extractStandings(rawStandings);
+        } catch { /* silent */ }
+        if (standings.length > 0) break;
       }
     }
 
-    const html = renderLeaguePage(sportCfg, leagueEvents, leagueSlug, leagueName, league, standings, leagueLogo);
+    const html = renderLeaguePage(sportCfg, leagueEvents, leagueSlug, leagueName, primaryLeague, standings, leagueLogo);
     writeFileSync(join(leagueDir, 'index.html'), html);
     console.log(`[${sportKey}] League page: ${sportCfg.dir}/leagues/${leagueSlug}/index.html (${leagueEvents.length} events, ${standings.length} teams)`);
   }

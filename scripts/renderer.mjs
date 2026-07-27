@@ -270,19 +270,35 @@ ${footerHTML(R)}
 </body></html>`;
 }
 
+function renderMatchResult(m, home, away) {
+  const status = m.status && m.status.type ? m.status.type : null;
+  const isCompleted = status && status.completed;
+  const isLive = status && status.state === 'in';
+  const shortDetail = status ? (status.shortDetail || status.detail || '') : '';
+  const homeScore = home && home.score !== undefined && home.score !== null && home.score !== '' ? home.score : null;
+  const awayScore = away && away.score !== undefined && away.score !== null && away.score !== '' ? away.score : null;
+
+  if (isCompleted && homeScore !== null && awayScore !== null) {
+    return `<span class="badge bg-dark me-1" style="font-size:11px;">${esc(shortDetail.split('-')[0].trim() || 'FT')}</span><strong class="fs-6">${homeScore} - ${awayScore}</strong>`;
+  }
+  if (isLive && homeScore !== null && awayScore !== null) {
+    return `<span class="badge bg-danger me-1" style="font-size:11px;">LIVE</span><strong class="fs-6">${homeScore} - ${awayScore}</strong>`;
+  }
+  return `<span class="matches-time"><div class="truncate">${formatTime(m.date)}</div></span><span class="matches-time text-center"><span class="fw-bold fs-6">vs</span></span>`;
+}
+
 function renderLeaguePage(sportCfg, leagueEvents, leagueSlug, leagueName, leagueId, standings, leagueLogo) {
   const R = '../../../';
   const items = leagueEvents.map(m => {
     const competitors = m._competitors || [];
     const home = extractTeam(competitors, 'home');
     const away = extractTeam(competitors, 'away');
-    const dateISO = m.date;
     const slug = m.shortName ? slugify(m.shortName) : m.id;
     const href = `../../${m.id}/${slug}/index.html`;
     return `<a href="${href}" class="matches" aria-label="${esc(m.name)}">
 <div class="matches-block border rounded-3 d-block ripple"><div class="matches-main"><div class="matches-team"><div class="team-line centered">
 <div class="col-3-list">${home&&home.logo?`<img class="team-logo animation fade-in" src="${home.logo}" width="40" height="40" loading="lazy" alt="${esc(home.abbreviation)}">`:''}<span class="team-name">${esc(home?home.name:'')}</span></div>
-<span class="prediction-score"><span class="matches-time"><div class="truncate">${formatTime(dateISO)}</div></span><span class="matches-time text-center"><span class="fw-bold fs-6">vs</span></span><span class="league text-center"></span></span>
+<span class="prediction-score">${renderMatchResult(m, home, away)}<span class="league text-center"></span></span>
 <div class="col-3-list">${away&&away.logo?`<img class="team-logo animation fade-in" src="${away.logo}" width="40" height="40" loading="lazy" alt="${esc(away.abbreviation)}">`:''}<span class="team-name">${esc(away?away.name:'')}</span></div>
 </div></div></div></div></a>`;
   }).join('\n');
@@ -292,7 +308,7 @@ function renderLeaguePage(sportCfg, leagueEvents, leagueSlug, leagueName, league
 <thead><tr><th title="Rank">#</th><th class="text-start">TEAM</th><th title="Games Played">GP</th><th title="Goal Difference">GD</th><th title="Points">PTS</th></tr></thead>
 <tbody>${standings.slice(0,20).map(s => `<tr>
 <td>${s.rank}</td>
-<td class="text-start text-nowrap"><a class="linkUn" href="../team/${s.teamId}/${slugify(s.teamName)}/index.html">${esc(s.teamName)}</a></td>
+<td class="text-start text-nowrap"><a class="linkUn" href="../../team/${s.teamId}/${slugify(s.teamName)}/index.html">${esc(s.teamName)}</a></td>
 <td>${s.gp}</td><td>${s.gd}</td><td>${s.pts}</td>
 </tr>`).join('\n')}</tbody></table></div>
 <div class="d-grid gap-2"><a class="btn btn-light btn-sm w-100 mb-3" data-mdb-ripple-color="dark" href="#">Full Standings</a></div>` : '';
@@ -404,7 +420,7 @@ ${img ? `<img class="card-img-top" src="${img}" width="360" height="144" loading
 <td class="text-start text-nowrap" style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><a class="linkUn" href="../team/${s.teamId}/${slugify(s.teamName)}/index.html" style="font-size:11px;">${esc(s.teamName)}</a></td>
 <td>${s.gp}</td><td>${s.gd}</td><td><strong>${s.pts}</strong></td>
 </tr>`).join('\n')}</tbody></table>
-<div class="d-grid gap-2 mt-2"><a class="btn btn-light btn-sm w-100" href="../leagues/${leagueSlug}/index.html">Full Standings</a></div>` : '<p class="text-muted small">Standings not available.</p>';
+<div class="d-grid gap-2 mt-2"><a class="btn btn-light btn-sm w-100" href="../../leagues/${leagueSlug}/index.html">Full Standings</a></div>` : '<p class="text-muted small">Standings not available.</p>';
 
   return `<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="index,follow">
@@ -475,7 +491,7 @@ function renderSportListing(sportCfg, matches, sportLabel, extra) {
     return `<a href="${href}" class="matches" aria-label="${esc(m.name)}">
 <div class="matches-block border rounded-3 d-block ripple"><div class="matches-main"><div class="matches-team"><div class="team-line centered">
 <div class="col-3-list">${home&&home.logo?`<img class="team-logo animation fade-in" src="${home.logo}" width="40" height="40" loading="lazy" alt="${esc(home.abbreviation)}">`:''}<span class="team-name">${esc(home?home.name:'')}</span></div>
-<span class="prediction-score"><span class="matches-time"><div class="truncate">${formatTime(dateISO)}</div></span><span class="matches-time text-center"><span class="fw-bold fs-6">vs</span></span><span class="league text-center"></span></span>
+<span class="prediction-score">${renderMatchResult(m, home, away)}<span class="league text-center"></span></span>
 <div class="col-3-list">${away&&away.logo?`<img class="team-logo animation fade-in" src="${away.logo}" width="40" height="40" loading="lazy" alt="${esc(away.abbreviation)}">`:''}<span class="team-name">${esc(away?away.name:'')}</span></div>
 </div></div></div></div></a>`;
   }).join('\n');
@@ -487,12 +503,11 @@ function renderSportListing(sportCfg, matches, sportLabel, extra) {
           const c = m._competitors || [];
           const h = extractTeam(c, 'home');
           const a = extractTeam(c, 'away');
-          const d = m.date;
           const s = m.shortName ? slugify(m.shortName) : m.id;
           return `<a href="${m.id}/${s}/index.html" class="matches" aria-label="${esc(m.name)}">
 <div class="matches-block border rounded-3 d-block ripple"><div class="matches-main"><div class="matches-team"><div class="team-line centered">
 <div class="col-3-list">${h&&h.logo?`<img class="team-logo animation fade-in" src="${h.logo}" width="40" height="40" loading="lazy" alt="${esc(h.abbreviation)}">`:''}<span class="team-name">${esc(h?h.name:'')}</span></div>
-<span class="prediction-score"><span class="matches-time"><div class="truncate">${formatTime(d)}</div></span><span class="matches-time text-center"><span class="fw-bold fs-6">vs</span></span><span class="league text-center"></span></span>
+<span class="prediction-score">${renderMatchResult(m, h, a)}<span class="league text-center"></span></span>
 <div class="col-3-list">${a&&a.logo?`<img class="team-logo animation fade-in" src="${a.logo}" width="40" height="40" loading="lazy" alt="${esc(a.abbreviation)}">`:''}<span class="team-name">${esc(a?a.name:'')}</span></div>
 </div></div></div></div></a>`;
         }).join('\n');
