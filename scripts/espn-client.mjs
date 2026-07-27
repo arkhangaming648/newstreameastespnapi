@@ -40,8 +40,24 @@ function getStandingsURL(sport, league) {
   return `${BASE_SITE}/${sport}/${league}/standings`;
 }
 
+function getTeamScheduleURL(sport, league, teamId) {
+  return `${BASE_SITE}/${sport}/${league}/teams/${teamId}/schedule`;
+}
+
+function getTeamNewsURL(sport, league, teamId) {
+  return `${BASE_SITE}/${sport}/${league}/teams/${teamId}/news`;
+}
+
 async function fetchStandings(sport, league) {
   return fetchJSON(getStandingsURL(sport, league));
+}
+
+async function fetchTeamSchedule(sport, league, teamId) {
+  return fetchJSON(getTeamScheduleURL(sport, league, teamId));
+}
+
+async function fetchTeamNews(sport, league, teamId) {
+  return fetchJSON(getTeamNewsURL(sport, league, teamId));
 }
 
 function extractStandings(raw) {
@@ -345,6 +361,8 @@ export {
   fetchEventSummary,
   fetchNews,
   fetchStandings,
+  fetchTeamSchedule,
+  fetchTeamNews,
   extractEvents,
   normalizeEvent,
   extractCombinedStats,

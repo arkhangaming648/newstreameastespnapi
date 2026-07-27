@@ -214,7 +214,7 @@ ${vName ? `<i class="fas fa-location-arrow"></i> <span class="fw-bold">Venue: </
 </div></div></main>
 ${footerHTML(R)}
 <script>let isLive="pre";</script>
-<script src="${R}js/app_ver%3D1698506434.js"></script>
+<script src="${R}js/ind_ver=1698506434.js"></script>
 </body></html>`;
 }
 

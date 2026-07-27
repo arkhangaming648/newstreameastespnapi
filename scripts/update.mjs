@@ -10,7 +10,7 @@ const CONFIG_PATH = join(ROOT, 'sports-config.json');
 
 const config = JSON.parse(readFileSync(CONFIG_PATH, 'utf-8'));
 
-import { fetchScoreboard, fetchEventSummary, fetchNews, fetchStandings, extractEvents, normalizeEvent, extractCombinedStats, extractRosters, extractCommentary, extractArticle, extractKeyEvents, extractStandings, getLeagueSlug, getLeagueName, getLeagueLogo, LEAGUE_SLUG_MAP } from './espn-client.mjs';
+import { fetchScoreboard, fetchEventSummary, fetchNews, fetchStandings, fetchTeamSchedule, fetchTeamNews, extractEvents, normalizeEvent, extractCombinedStats, extractRosters, extractCommentary, extractArticle, extractKeyEvents, extractStandings, getLeagueSlug, getLeagueName, getLeagueLogo, LEAGUE_SLUG_MAP } from './espn-client.mjs';
 import { renderMatchPage, renderSportListing, renderHomepage, renderLeaguePage, renderTeamPage, slugify } from './renderer.mjs';
 import { fetchBoxingListing, extractEvents as extractBoxingEvents, renderMatchPage as renderBoxingMatch, renderListing as renderBoxingListing } from './boxing-scraper.mjs';
 
@@ -195,6 +195,60 @@ async function generateLeaguePages(sportKey, sportCfg, allEvents) {
   }
 }
 
+function determineTeamPrimaryLeague(teamId, allEvents, sportCfg) {
+  // Count events per league for this team
+  const leagueCounts = {};
+  for (const event of allEvents) {
+    const competitors = event._competitors || [];
+    const inEvent = competitors.some(c => {
+      const t = c.team || c;
+      return String(t.id) === String(teamId);
+    });
+    if (inEvent && event._sourceLeague) {
+      leagueCounts[event._sourceLeague] = (leagueCounts[event._sourceLeague] || 0) + 1;
+    }
+  }
+  // Prefer domestic leagues over cups
+  const domesticPriority = ['eng.1','esp.1','ita.1','fra.1','ger.1','por.1','ned.1','sco.1','tur.1','bel.1','aut.1','swe.1','nor.1','den.1','gre.1','jpn.1','ksa.1','usa.1','mex.1','bra.1','bra.2','arg.1','chi.1','par.1','usa.nwsl'];
+  const entries = Object.entries(leagueCounts);
+  if (entries.length === 0) return sportCfg.leagues[0];
+  entries.sort((a, b) => {
+    const aDom = domesticPriority.indexOf(a[0]) >= 0 ? 1 : 0;
+    const bDom = domesticPriority.indexOf(b[0]) >= 0 ? 1 : 0;
+    if (aDom !== bDom) return bDom - aDom;
+    return b[1] - a[1];
+  });
+  return entries[0][0];
+}
+
+function findTeamInfo(allEvents, teamId, teamName, standingsMap) {
+  // Find team logo from any event
+  let teamLogo = '';
+  for (const event of allEvents) {
+    const competitors = event._competitors || [];
+    for (const c of competitors) {
+      const t = c.team || c;
+      if (String(t.id) === String(teamId)) {
+        if (!teamLogo && t.logos && t.logos[0]) teamLogo = t.logos[0].href;
+        if (!teamLogo) teamLogo = t.logo || '';
+        if (teamLogo) break;
+      }
+    }
+    if (teamLogo) break;
+  }
+  // Find league position from standings
+  let leaguePosition = '';
+  for (const [leagueSlug, st] of Object.entries(standingsMap)) {
+    const entry = st.find(s => String(s.teamId) === String(teamId));
+    if (entry) {
+      const ordinal = entry.rank <= 3 ? ['','1st','2nd','3rd'][entry.rank] : `${entry.rank}th`;
+      leaguePosition = `${ordinal} in ${getLeagueName(leagueSlug)}`;
+      break;
+    }
+  }
+  return { logo: teamLogo, leaguePosition };
+}
+
 async function generateTeamPages(sportKey, sportCfg, allEvents, allSportEvents) {
   if (sportCfg.sport !== 'soccer') return;
 
@@ -222,17 +276,66 @@ async function generateTeamPages(sportKey, sportCfg, allEvents, allSportEvents) 
     }
   }
 
+  // Build standings map: leagueSlug -> standings[]
+  const standingsMap = {};
+  for (const league of sportCfg.leagues) {
+    try {
+      const slug = getLeagueSlug(league);
+      const raw = await fetchStandings(sportCfg.sport, league);
+      if (raw) standingsMap[league] = extractStandings(raw);
+    } catch { /* skip */ }
+  }
+
   const teamDir = join(SITE_DIR, sportCfg.dir, 'team');
   ensureDir(teamDir);
 
+  let count = 0;
   for (const [teamId, teamData] of Object.entries(teamMap)) {
+    const primaryLeague = determineTeamPrimaryLeague(teamId, allEvents, sportCfg);
     const teamSlug = teamData.slug;
     const tDir = join(teamDir, teamId, teamSlug);
     ensureDir(tDir);
-    const html = renderTeamPage(sportCfg, teamData.events, teamId, teamData.name, teamSlug);
+
+    // Fetch team schedule & news
+    let fixtures = [];
+    try {
+      const scheduleRaw = await fetchTeamSchedule(sportCfg.sport, primaryLeague, teamId);
+      if (scheduleRaw && scheduleRaw.events) {
+        fixtures = scheduleRaw.events.map(e => normalizeEvent(e)).filter(Boolean);
+      }
+    } catch (err) {
+      console.log(`[${sportKey}/team/${teamId}] Schedule fetch failed: ${err.message}`);
+    }
+
+    let teamNews = [];
+    try {
+      const newsRaw = await fetchTeamNews(sportCfg.sport, primaryLeague, teamId);
+      if (newsRaw && newsRaw.articles) teamNews = newsRaw.articles;
+    } catch { /* silent */ }
+
+    if (fixtures.length === 0 && teamData.events.length > 0) {
+      fixtures = teamData.events;
+    }
+
+    const teamInfoData = findTeamInfo(allEvents, teamId, teamData.name, standingsMap);
+    const leagueSlug = getLeagueSlug(primaryLeague);
+    const leagueName = getLeagueName(primaryLeague);
+
+    const teamInfo = {
+      id: teamId,
+      name: teamData.name,
+      slug: teamSlug,
+      logo: teamInfoData.logo,
+      leagueName,
+      leagueSlug,
+      leaguePosition: teamInfoData.leaguePosition
+    };
+
+    const html = renderTeamPage(sportCfg, teamInfo, fixtures, teamNews, standingsMap[primaryLeague] || []);
     writeFileSync(join(tDir, 'index.html'), html);
+    count++;
   }
-  console.log(`[${sportKey}] Generated ${Object.keys(teamMap).length} team pages`);
+  console.log(`[${sportKey}] Generated ${count} team pages`);
 }
 
 async function main() {

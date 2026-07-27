@@ -266,7 +266,7 @@ ${renderRosters(rosters)}
 </main>
 ${footerHTML(R)}
 <script>let isLive="pre";let url="https://www.espn.com/${sportCfg.sport}/match?gameId=${eventId}&xhr=1";</script>
-<script src="${R}js/app_ver%3D1698506434.js"></script>
+<script src="${R}js/ind_ver=1698506434.js"></script>
 </body></html>`;
 }
 
@@ -328,33 +328,94 @@ ${standingsTable}
 </div>
 </div></div></main>
 ${footerHTML(R)}
-<script src="${R}js/app_ver%3D1698506434.js"></script>
+<script src="${R}js/ind_ver=1698506434.js"></script>
 </body></html>`;
 }
 
-function renderTeamPage(sportCfg, teamEvents, teamId, teamName, teamSlug) {
+function getScoreDisplay(team) {
+  if (!team || team.score === undefined || team.score === null || team.score === '') return '';
+  if (typeof team.score === 'object') return team.score.displayValue || team.score.value || '';
+  return String(team.score);
+}
+
+function renderTeamPage(sportCfg, teamInfo, fixtures, newsArticles, standings) {
   const R = '../../../';
-  const items = teamEvents.map(m => {
+  const teamName = teamInfo.name || '';
+  const teamLogo = teamInfo.logo || '';
+  const leagueName = teamInfo.leagueName || '';
+  const leagueSlug = teamInfo.leagueSlug || '';
+  const leaguePosition = teamInfo.leaguePosition || '';
+  const teamId = teamInfo.id || '';
+
+  // Compact fixture items (left col)
+  const fixtureItems = (fixtures || []).map(m => {
     const competitors = m._competitors || [];
     const home = extractTeam(competitors, 'home');
     const away = extractTeam(competitors, 'away');
     const dateISO = m.date;
     const slug = m.shortName ? slugify(m.shortName) : m.id;
     const href = `../../${m.id}/${slug}/index.html`;
-    return `<a href="${href}" class="matches" aria-label="${esc(m.name)}">
-<div class="matches-block border rounded-3 d-block ripple"><div class="matches-main"><div class="matches-team"><div class="team-line centered">
-<div class="col-3-list">${home&&home.logo?`<img class="team-logo animation fade-in" src="${home.logo}" width="40" height="40" loading="lazy" alt="${esc(home.abbreviation)}">`:''}<span class="team-name">${esc(home?home.name:'')}</span></div>
-<span class="prediction-score"><span class="matches-time"><div class="truncate">${formatTime(dateISO)}</div></span><span class="matches-time text-center"><span class="fw-bold fs-6">vs</span></span><span class="league text-center"></span></span>
-<div class="col-3-list">${away&&away.logo?`<img class="team-logo animation fade-in" src="${away.logo}" width="40" height="40" loading="lazy" alt="${esc(away.abbreviation)}">`:''}<span class="team-name">${esc(away?away.name:'')}</span></div>
-</div></div></div></div></a>`;
+    const hAbbr = home ? (home.abbreviation || home.name.substring(0,3).toUpperCase()) : '';
+    const aAbbr = away ? (away.abbreviation || away.name.substring(0,3).toUpperCase()) : '';
+    const hLogo = home && home.logo ? home.logo : '';
+    const aLogo = away && away.logo ? away.logo : '';
+    const scoreHome = getScoreDisplay(home);
+    const scoreAway = getScoreDisplay(away);
+    const hasScore = scoreHome !== '' && scoreAway !== '';
+    const scoreDisplay = hasScore ? `${scoreHome}-${scoreAway}` : formatTime(dateISO);
+    const scoreClass = hasScore ? 'badge bg-success' : 'badge bg-danger';
+    return `<a href="${href}" class="matches team-match" aria-label="${esc(m.name)}" style="display:flex;align-items:center;padding:5px 0;border-bottom:1px solid #333;">
+<div class="team-name-small" style="flex:1;display:flex;align-items:center;gap:5px;min-width:0;">
+${hLogo ? `<img src="${hLogo}" width="20" height="20" alt="${esc(hAbbr)}">` : ''}
+<span style="font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(hAbbr)}</span>
+</div>
+<div style="flex:0 0 auto;text-align:center;margin:0 10px;">
+<span class="${scoreClass}" style="font-size:11px;white-space:nowrap;">${esc(scoreDisplay)}</span>
+<div style="font-size:10px;color:#999;">${esc(leagueName)}</div>
+</div>
+<div class="team-name-small" style="flex:1;display:flex;align-items:center;gap:5px;min-width:0;justify-content:flex-end;">
+<span style="font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(aAbbr)}</span>
+${aLogo ? `<img src="${aLogo}" width="20" height="20" alt="${esc(aAbbr)}">` : ''}
+</div>
+</a>`;
   }).join('\n');
+
+  // News items (middle col)
+  const newsItems = (newsArticles || []).slice(0,4).map(a => {
+    const img = a.images && a.images[0] ? a.images[0].url || a.images[0].href || a.images[0].src : (a.image ? a.image.url || a.image.href || a.image.src : '');
+    const href = a.links && a.links.web ? a.links.web.href : '#';
+    return `<div class="col-6 mb-3">
+<div class="card h-100">
+<a href="${esc(href)}" target="_blank" rel="noopener" class="text-decoration-none">
+${img ? `<img class="card-img-top" src="${img}" width="360" height="144" loading="lazy" alt="${esc(a.headline||'')}" style="max-width:100%;height:auto;" onerror="this.remove()">` : ''}
+<div class="card-body p-2">
+<span class="side-news-title" style="font-size:13px;">${esc(a.headline||'')}</span>
+<p class="card-text side-news-desc small mb-0">${esc(a.description||a.caption||'')}</p>
+</div>
+</a>
+</div>
+</div>`;
+  }).join('\n') || '<p class="text-muted small">No news available.</p>';
+
+  // Standings table (right col)
+  const standingsTable = standings && standings.length > 0 ? `<table class="table table-striped table-responsive text-center" style="font-size:11px;margin-bottom:0;">
+<thead><tr><th title="Rank">#</th><th class="text-start">TEAM</th><th title="Games Played">GP</th><th title="Goal Difference">GD</th><th title="Points">PTS</th></tr></thead>
+<tbody>${standings.slice(0,20).map(s => `<tr>
+<td>${s.rank}</td>
+<td class="text-start text-nowrap" style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><a class="linkUn" href="../team/${s.teamId}/${slugify(s.teamName)}/index.html" style="font-size:11px;">${esc(s.teamName)}</a></td>
+<td>${s.gp}</td><td>${s.gd}</td><td><strong>${s.pts}</strong></td>
+</tr>`).join('\n')}</tbody></table>
+<div class="d-grid gap-2 mt-2"><a class="btn btn-light btn-sm w-100" href="../leagues/${leagueSlug}/index.html">Full Standings</a></div>` : '<p class="text-muted small">Standings not available.</p>';
 
   return `<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="index,follow">
 <title>${esc(teamName)} - StreamEast</title>
+<meta name="description" content="${esc(teamName)} scores, fixtures, standings and news">
 <link rel="canonical" href="index.html"><link rel="shortcut icon" href="${R}nav.png" type="image/png">
 <link rel="stylesheet" href="${R}assets/css/style.css" type="text/css">
 <link rel="preload" href="${R}assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<meta property="og:title" content="${esc(teamName)} - StreamEast">
+<meta property="og:description" content="Get ${esc(teamName)} fixtures, results and standings.">
 <meta name="theme-color" content="#8B2E3D"></head>
 <body>
 ${navHeader(R)}
@@ -364,13 +425,38 @@ ${navHeader(R)}
 <li class="breadcrumb-item"><a class="linkUn" href="../index.html">Football</a></li>
 <li class="breadcrumb-item active">${esc(teamName)}</li>
 </ol></nav>
-<h1 class="h1title mb-3"><span class="">${esc(teamName)}</span></h1>
-<div class="row"><div class="col-12">
-<h2 class="widgetTitle text-start">${esc(teamName)} Fixtures &amp; Results</h2>
-${items || '<p class="text-muted">No upcoming matches for this team.</p>'}
-</div></div></div></main>
+
+<div class="d-flex align-items-center gap-3 mb-3">
+${teamLogo ? `<img src="${teamLogo}" width="60" height="60" alt="${esc(teamName)}">` : ''}
+<div>
+<h1 class="h1title mb-0">${esc(teamName)}</h1>
+${leaguePosition ? `<span class="text-white-50 small">${esc(leaguePosition)}</span>` : ''}
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-3 mb-3">
+<h2 class="widgetTitle" style="font-size:14px;margin-bottom:8px;">2026 Fixtures</h2>
+<div style="background:#1a1a2e;border-radius:8px;padding:8px;">
+${fixtureItems || '<p class="text-muted small mb-0">No fixtures available.</p>'}
+</div>
+</div>
+
+<div class="col-md-6 mb-3">
+<h2 class="widgetTitle" style="font-size:14px;margin-bottom:8px;">News</h2>
+<div class="row g-2">
+${newsItems}
+</div>
+</div>
+
+<div class="col-md-3 mb-3">
+<h2 class="widgetTitle" style="font-size:14px;margin-bottom:8px;">${esc(leagueName)} Table</h2>
+${standingsTable}
+</div>
+</div>
+</div></main>
 ${footerHTML(R)}
-<script src="${R}js/app_ver%3D1698506434.js"></script>
+<script src="${R}js/ind_ver=1698506434.js"></script>
 </body></html>`;
 }
 
