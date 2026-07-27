@@ -117,6 +117,10 @@
     }
   },
   "lastUpdate": {
+<<<<<<< HEAD
     "20260727": "2026-07-27T17:28:00.291Z"
+=======
+    "20260727": "2026-07-27T17:32:43.891Z"
+>>>>>>> 6c18b6f (Fix R path depth for team pages (4 levels: soccer/team/{id}/{slug}/) and league breadcrumb)
   }
 }

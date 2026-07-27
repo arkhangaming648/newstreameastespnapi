@@ -310,10 +310,9 @@ ${navHeader(R)}
 <main class="container-lg"><div class="list-matches px-2"><div id="tbody3">
 <nav aria-label="breadcrumb"><ol class="breadcrumb">
 <li class="breadcrumb-item"><a class="linkUn" href="${R}index.html">Home</a></li>
-<li class="breadcrumb-item"><a class="linkUn" href="../index.html">Football</a></li>
+<li class="breadcrumb-item"><a class="linkUn" href="../../index.html">Football</a></li>
 <li class="breadcrumb-item active">${esc(leagueName)}</li>
 </ol></nav>
-<div class="float-end"><a class="btn btn-light btn-sm" href="../standings/${leagueSlug}/index.html">Table</a></div>
 <h1 class="h1title mb-3">${leagueLogo ? `<img alt="${esc(leagueName)}" src="${leagueLogo}" width="40" height="40" style="vertical-align:top;">` : ''}<span class="">${esc(leagueName)}</span></h1>
 <div class="row">
 <div class="col-md-8 px-3">
@@ -339,7 +338,7 @@ function getScoreDisplay(team) {
 }
 
 function renderTeamPage(sportCfg, teamInfo, fixtures, newsArticles, standings) {
-  const R = '../../../';
+  const R = '../../../../';
   const teamName = teamInfo.name || '';
   const teamLogo = teamInfo.logo || '';
   const leagueName = teamInfo.leagueName || '';
@@ -422,7 +421,7 @@ ${navHeader(R)}
 <main class="container-lg"><div class="list-matches px-2"><div id="tbody3">
 <nav aria-label="breadcrumb"><ol class="breadcrumb">
 <li class="breadcrumb-item"><a class="linkUn" href="${R}index.html">Home</a></li>
-<li class="breadcrumb-item"><a class="linkUn" href="../index.html">Football</a></li>
+<li class="breadcrumb-item"><a class="linkUn" href="../../index.html">Football</a></li>
 <li class="breadcrumb-item active">${esc(teamName)}</li>
 </ol></nav>
 
