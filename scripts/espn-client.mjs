@@ -1,4 +1,5 @@
 const BASE_SITE = 'https://site.api.espn.com/apis/site/v2/sports';
+const BASE_WEB = 'https://site.web.api.espn.com/apis/v2/sports';
 
 const DELAY_MS = 1200;
 let lastRequestTime = 0;
@@ -40,24 +41,42 @@ function getStandingsURL(sport, league) {
   return `${BASE_SITE}/${sport}/${league}/standings`;
 }
 
-function getTeamScheduleURL(sport, league, teamId) {
-  return `${BASE_SITE}/${sport}/${league}/teams/${teamId}/schedule`;
+function getStandingsV2URL(sport, league) {
+  return `${BASE_WEB}/${sport}/${league}/standings`;
+}
+
+function getTeamScheduleURL(sport, league, teamId, season) {
+  let url = `${BASE_SITE}/${sport}/${league}/teams/${teamId}/schedule`;
+  if (season) url += `?season=${season}`;
+  return url;
 }
 
 function getTeamNewsURL(sport, league, teamId) {
   return `${BASE_SITE}/${sport}/${league}/teams/${teamId}/news`;
 }
 
+function getTeamInfoURL(sport, league, teamId) {
+  return `${BASE_SITE}/${sport}/${league}/teams/${teamId}/statistics`;
+}
+
 async function fetchStandings(sport, league) {
   return fetchJSON(getStandingsURL(sport, league));
 }
 
-async function fetchTeamSchedule(sport, league, teamId) {
-  return fetchJSON(getTeamScheduleURL(sport, league, teamId));
+async function fetchStandingsV2(sport, league) {
+  return fetchJSON(getStandingsV2URL(sport, league));
+}
+
+async function fetchTeamSchedule(sport, league, teamId, season) {
+  return fetchJSON(getTeamScheduleURL(sport, league, teamId, season));
 }
 
 async function fetchTeamNews(sport, league, teamId) {
   return fetchJSON(getTeamNewsURL(sport, league, teamId));
+}
+
+async function fetchTeamInfo(sport, league, teamId) {
+  return fetchJSON(getTeamInfoURL(sport, league, teamId));
 }
 
 function extractStandings(raw) {
@@ -85,6 +104,29 @@ function extractStandings(raw) {
     }
   }
   return results;
+}
+
+function extractStandingsV2(raw) {
+  if (!raw || !raw.children || !raw.children[0] || !raw.children[0].standings) return [];
+  const entries = raw.children[0].standings.entries || [];
+  return entries.map(e => {
+    if (!e.team) return null;
+    const stats = {};
+    (e.stats || []).forEach(st => { stats[st.name] = st.displayValue; });
+    return {
+      rank: e.note && e.note.rank ? parseInt(e.note.rank) : entries.indexOf(e) + 1,
+      teamId: e.team.id,
+      teamName: e.team.displayName || e.team.name || e.team.location || '',
+      teamAbbrev: e.team.abbreviation || '',
+      teamLogo: e.team.logos && e.team.logos[0] ? e.team.logos[0].href : null,
+      gp: stats.gamesPlayed || '0',
+      wins: stats.wins || '0',
+      losses: stats.losses || '0',
+      ties: stats.ties || '0',
+      gd: stats.pointDifferential || stats.goalDifference || '0',
+      pts: stats.points || '0'
+    };
+  }).filter(Boolean);
 }
 
 const LEAGUE_SLUG_MAP = {
@@ -361,8 +403,10 @@ export {
   fetchEventSummary,
   fetchNews,
   fetchStandings,
+  fetchStandingsV2,
   fetchTeamSchedule,
   fetchTeamNews,
+  fetchTeamInfo,
   extractEvents,
   normalizeEvent,
   extractCombinedStats,
@@ -371,6 +415,7 @@ export {
   extractArticle,
   extractKeyEvents,
   extractStandings,
+  extractStandingsV2,
   getLeagueSlug,
   getLeagueName,
   getLeagueLogo,

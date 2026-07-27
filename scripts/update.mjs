@@ -10,7 +10,7 @@ const CONFIG_PATH = join(ROOT, 'sports-config.json');
 
 const config = JSON.parse(readFileSync(CONFIG_PATH, 'utf-8'));
 
-import { fetchScoreboard, fetchEventSummary, fetchNews, fetchStandings, fetchTeamSchedule, fetchTeamNews, extractEvents, normalizeEvent, extractCombinedStats, extractRosters, extractCommentary, extractArticle, extractKeyEvents, extractStandings, getLeagueSlug, getLeagueName, getLeagueLogo, LEAGUE_SLUG_MAP } from './espn-client.mjs';
+import { fetchScoreboard, fetchEventSummary, fetchNews, fetchStandings, fetchStandingsV2, fetchTeamSchedule, fetchTeamNews, fetchTeamInfo, extractEvents, normalizeEvent, extractCombinedStats, extractRosters, extractCommentary, extractArticle, extractKeyEvents, extractStandings, extractStandingsV2, getLeagueSlug, getLeagueName, getLeagueLogo, LEAGUE_SLUG_MAP } from './espn-client.mjs';
 import { renderMatchPage, renderSportListing, renderHomepage, renderLeaguePage, renderTeamPage, slugify } from './renderer.mjs';
 import { fetchBoxingListing, extractEvents as extractBoxingEvents, renderMatchPage as renderBoxingMatch, renderListing as renderBoxingListing } from './boxing-scraper.mjs';
 
@@ -178,15 +178,19 @@ async function generateLeaguePages(sportKey, sportCfg, allEvents) {
     const leagueDir = join(SITE_DIR, sportCfg.dir, 'leagues', leagueSlug);
     ensureDir(leagueDir);
 
-    // Fetch standings
+    // Fetch standings (v2 first, fallback to v1)
     let standings = [];
     try {
-      const rawStandings = await fetchStandings(sportCfg.sport, league);
-      if (rawStandings) {
-        standings = extractStandings(rawStandings);
+      const rawStandings = await fetchStandingsV2(sportCfg.sport, league);
+      if (rawStandings) standings = extractStandingsV2(rawStandings);
+    } catch { /* silent */ }
+    if (standings.length === 0) {
+      try {
+        const rawStandings = await fetchStandings(sportCfg.sport, league);
+        if (rawStandings) standings = extractStandings(rawStandings);
+      } catch (err) {
+        console.log(`[${sportKey}/${league}] Standings fetch failed: ${err.message}`);
       }
-    } catch (err) {
-      console.log(`[${sportKey}/${league}] Standings fetch failed: ${err.message}`);
     }
 
     const html = renderLeaguePage(sportCfg, leagueEvents, leagueSlug, leagueName, league, standings, leagueLogo);
@@ -276,11 +280,19 @@ async function generateTeamPages(sportKey, sportCfg, allEvents, allSportEvents) 
     }
   }
 
-  // Build standings map: leagueSlug -> standings[]
+  // Build standings map using v2 API: leagueId -> standings[]
   const standingsMap = {};
   for (const league of sportCfg.leagues) {
     try {
-      const slug = getLeagueSlug(league);
+      const raw = await fetchStandingsV2(sportCfg.sport, league);
+      if (raw) standingsMap[league] = extractStandingsV2(raw);
+    } catch { /* skip */ }
+  }
+
+  // Build standings map using v1 as fallback
+  for (const league of sportCfg.leagues) {
+    if (standingsMap[league] && standingsMap[league].length > 0) continue;
+    try {
       const raw = await fetchStandings(sportCfg.sport, league);
       if (raw) standingsMap[league] = extractStandings(raw);
     } catch { /* skip */ }
@@ -289,6 +301,8 @@ async function generateTeamPages(sportKey, sportCfg, allEvents, allSportEvents) 
   const teamDir = join(SITE_DIR, sportCfg.dir, 'team');
   ensureDir(teamDir);
 
+  const seasonPast = String(new Date().getUTCFullYear() - 1);
+
   let count = 0;
   for (const [teamId, teamData] of Object.entries(teamMap)) {
     const primaryLeague = determineTeamPrimaryLeague(teamId, allEvents, sportCfg);
@@ -296,28 +310,65 @@ async function generateTeamPages(sportKey, sportCfg, allEvents, allSportEvents) 
     const tDir = join(teamDir, teamId, teamSlug);
     ensureDir(tDir);
 
-    // Fetch team schedule & news
+    // Fetch team schedule with previous season
     let fixtures = [];
     try {
-      const scheduleRaw = await fetchTeamSchedule(sportCfg.sport, primaryLeague, teamId);
-      if (scheduleRaw && scheduleRaw.events) {
+      const scheduleRaw = await fetchTeamSchedule(sportCfg.sport, primaryLeague, teamId, seasonPast);
+      if (scheduleRaw && scheduleRaw.events && scheduleRaw.events.length > 0) {
         fixtures = scheduleRaw.events.map(e => normalizeEvent(e)).filter(Boolean);
       }
     } catch (err) {
       console.log(`[${sportKey}/team/${teamId}] Schedule fetch failed: ${err.message}`);
     }
 
-    let teamNews = [];
-    try {
-      const newsRaw = await fetchTeamNews(sportCfg.sport, primaryLeague, teamId);
-      if (newsRaw && newsRaw.articles) teamNews = newsRaw.articles;
-    } catch { /* silent */ }
+    // Fallback: try without season
+    if (fixtures.length === 0) {
+      try {
+        const scheduleRaw = await fetchTeamSchedule(sportCfg.sport, primaryLeague, teamId);
+        if (scheduleRaw && scheduleRaw.events) {
+          fixtures = scheduleRaw.events.map(e => normalizeEvent(e)).filter(Boolean);
+        }
+      } catch { /* silent */ }
+    }
 
+    // Fallback: use events from today's scoreboard
     if (fixtures.length === 0 && teamData.events.length > 0) {
       fixtures = teamData.events;
     }
 
-    const teamInfoData = findTeamInfo(allEvents, teamId, teamData.name, standingsMap);
+    // Fetch team news, fallback to league news
+    let teamNews = [];
+    try {
+      const newsRaw = await fetchTeamNews(sportCfg.sport, primaryLeague, teamId);
+      if (newsRaw && newsRaw.articles && newsRaw.articles.length > 0) {
+        teamNews = newsRaw.articles;
+      }
+    } catch { /* silent */ }
+    if (teamNews.length === 0) {
+      try {
+        const newsRaw = await fetchNews(sportCfg.sport, primaryLeague);
+        if (newsRaw && newsRaw.articles) teamNews = newsRaw.articles;
+      } catch { /* silent */ }
+    }
+
+    // Get team logo + standing summary from team info endpoint
+    let teamLogo = '';
+    let standingSummary = '';
+    try {
+      const infoRaw = await fetchTeamInfo(sportCfg.sport, primaryLeague, teamId);
+      if (infoRaw && infoRaw.team) {
+        if (infoRaw.team.logo) teamLogo = infoRaw.team.logo;
+        if (infoRaw.team.standingSummary) standingSummary = infoRaw.team.standingSummary;
+      }
+    } catch { /* silent */ }
+
+    // Fallback: find logo from events
+    if (!teamLogo) {
+      const info = findTeamInfo(allEvents, teamId, teamData.name, standingsMap);
+      teamLogo = info.logo;
+      if (!standingSummary) standingSummary = info.leaguePosition;
+    }
+
     const leagueSlug = getLeagueSlug(primaryLeague);
     const leagueName = getLeagueName(primaryLeague);
 
@@ -325,10 +376,10 @@ async function generateTeamPages(sportKey, sportCfg, allEvents, allSportEvents) 
       id: teamId,
       name: teamData.name,
       slug: teamSlug,
-      logo: teamInfoData.logo,
+      logo: teamLogo,
       leagueName,
       leagueSlug,
-      leaguePosition: teamInfoData.leaguePosition
+      leaguePosition: standingSummary
     };
 
     const html = renderTeamPage(sportCfg, teamInfo, fixtures, teamNews, standingsMap[primaryLeague] || []);
