@@ -271,7 +271,7 @@ ${footerHTML(R)}
 }
 
 function renderLeaguePage(sportCfg, leagueEvents, leagueSlug, leagueName, leagueId, standings, leagueLogo) {
-  const R = '../';
+  const R = '../../../';
   const items = leagueEvents.map(m => {
     const competitors = m._competitors || [];
     const home = extractTeam(competitors, 'home');
@@ -333,7 +333,7 @@ ${footerHTML(R)}
 }
 
 function renderTeamPage(sportCfg, teamEvents, teamId, teamName, teamSlug) {
-  const R = '../';
+  const R = '../../../';
   const items = teamEvents.map(m => {
     const competitors = m._competitors || [];
     const home = extractTeam(competitors, 'home');
