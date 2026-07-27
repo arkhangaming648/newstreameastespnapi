@@ -3,212 +3,115 @@
     "soccer/401886548": {
       "sport": "soccer",
       "id": "401886548",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:24.367Z"
-=======
-      "firstSeen": "2026-07-27T17:46:47.582Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:06:45.494Z"
     },
     "soccer/401860260": {
       "sport": "soccer",
       "id": "401860260",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:25.589Z"
-=======
-      "firstSeen": "2026-07-27T17:46:48.773Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:06:46.423Z"
     },
     "soccer/401860259": {
       "sport": "soccer",
       "id": "401860259",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:26.784Z"
-=======
-      "firstSeen": "2026-07-27T17:46:50.774Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:06:47.170Z"
     },
     "soccer/401860257": {
       "sport": "soccer",
       "id": "401860257",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:27.991Z"
-=======
-      "firstSeen": "2026-07-27T17:46:51.217Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:06:47.942Z"
     },
     "soccer/401842766": {
       "sport": "soccer",
       "id": "401842766",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:29.207Z"
-=======
-      "firstSeen": "2026-07-27T17:46:52.685Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:06:48.805Z"
     },
     "soccer/401873927": {
       "sport": "soccer",
       "id": "401873927",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:30.384Z"
-=======
-      "firstSeen": "2026-07-27T17:46:54.496Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:06:49.535Z"
     },
     "soccer/401874475": {
       "sport": "soccer",
       "id": "401874475",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:31.571Z"
-=======
-      "firstSeen": "2026-07-27T17:46:55.819Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:06:50.438Z"
     },
     "soccer/401850602": {
       "sport": "soccer",
       "id": "401850602",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:32.802Z"
-=======
-      "firstSeen": "2026-07-27T17:46:57.061Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:06:51.098Z"
     },
     "mlb/401816288": {
       "sport": "mlb",
       "id": "401816288",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:43.571Z"
-=======
-      "firstSeen": "2026-07-27T17:47:07.414Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:06:58.308Z"
     },
     "mlb/401816280": {
       "sport": "mlb",
       "id": "401816280",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:44.772Z"
-=======
-      "firstSeen": "2026-07-27T17:47:09.436Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:06:59.179Z"
     },
     "mlb/401816282": {
       "sport": "mlb",
       "id": "401816282",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:45.987Z"
-=======
-      "firstSeen": "2026-07-27T17:47:10.112Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:06:59.903Z"
     },
     "mlb/401816284": {
       "sport": "mlb",
       "id": "401816284",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:47.196Z"
-=======
-      "firstSeen": "2026-07-27T17:47:11.073Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:07:00.709Z"
     },
     "mlb/401816285": {
       "sport": "mlb",
       "id": "401816285",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:48.367Z"
-=======
-      "firstSeen": "2026-07-27T17:47:12.267Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:07:01.510Z"
     },
     "mlb/401816283": {
       "sport": "mlb",
       "id": "401816283",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:49.593Z"
-=======
-      "firstSeen": "2026-07-27T17:47:13.491Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:07:02.309Z"
     },
     "mlb/401816281": {
       "sport": "mlb",
       "id": "401816281",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:50.779Z"
-=======
-      "firstSeen": "2026-07-27T17:47:15.601Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:07:03.126Z"
     },
     "mlb/401816287": {
       "sport": "mlb",
       "id": "401816287",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:51.967Z"
-=======
-      "firstSeen": "2026-07-27T17:47:16.289Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:07:03.900Z"
     },
     "mlb/401816286": {
       "sport": "mlb",
       "id": "401816286",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:53.171Z"
-=======
-      "firstSeen": "2026-07-27T17:47:17.195Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:07:04.725Z"
     },
     "mlb/401816290": {
       "sport": "mlb",
       "id": "401816290",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:54.383Z"
-=======
-      "firstSeen": "2026-07-27T17:47:19.432Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:07:05.498Z"
     },
     "mlb/401816289": {
       "sport": "mlb",
       "id": "401816289",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:55.574Z"
-=======
-      "firstSeen": "2026-07-27T17:47:19.871Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:07:06.314Z"
     },
     "mlb/401816291": {
       "sport": "mlb",
       "id": "401816291",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:34:56.776Z"
-=======
-      "firstSeen": "2026-07-27T17:47:22.171Z"
-    },
-    "boxing/6a26e78f6838b8112679eb08": {
-      "sport": "boxing",
-      "id": "6a26e78f6838b8112679eb08",
-      "firstSeen": "2026-07-27T17:47:32.030Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:07:07.098Z"
     },
     "boxing/69f2a2182db7a04b90e059a7": {
       "sport": "boxing",
       "id": "69f2a2182db7a04b90e059a7",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:35:06.577Z"
-=======
-      "firstSeen": "2026-07-27T17:47:32.052Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+      "firstSeen": "2026-07-27T18:07:13.710Z"
     },
     "boxing/6a09056db2611e750decd228": {
       "sport": "boxing",
       "id": "6a09056db2611e750decd228",
-<<<<<<< HEAD
-      "firstSeen": "2026-07-27T17:35:06.880Z"
+      "firstSeen": "2026-07-27T18:07:13.739Z"
     }
   },
   "lastUpdate": {
-    "20260727": "2026-07-27T17:38:19.750Z"
-=======
-      "firstSeen": "2026-07-27T17:47:32.052Z"
-    }
-  },
-  "lastUpdate": {
-    "20260727": "2026-07-27T18:05:41.499Z"
->>>>>>> b6b46e7 (Fix league pages: fallback to no-date scoreboard, show FT scores with badge, fix standings team links, add fetch timeout)
+    "20260727": "2026-07-27T18:09:39.889Z"
   }
 }
