@@ -15,9 +15,7 @@ async function rateLimit() {
 async function fetchJSON(url) {
   await rateLimit();
   const res = await fetch(url, {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-    }
+    headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' }
   });
   if (!res.ok) {
     if (res.status === 404) return null;
@@ -34,12 +32,20 @@ function getSummaryURL(sport, league, eventId) {
   return `${BASE_SITE}/${sport}/${league}/summary?event=${eventId}`;
 }
 
+function getNewsURL(sport, league) {
+  return `${BASE_SITE}/${sport}/${league}/news?limit=6`;
+}
+
 async function fetchScoreboard(sport, league, dateStr) {
   return fetchJSON(getScoreboardURL(sport, league, dateStr));
 }
 
 async function fetchEventSummary(sport, league, eventId) {
   return fetchJSON(getSummaryURL(sport, league, eventId));
+}
+
+async function fetchNews(sport, league) {
+  return fetchJSON(getNewsURL(sport, league));
 }
 
 function extractEvents(scoreboardData) {
@@ -97,9 +103,91 @@ function normalizeEvent(eventOrSummary) {
   };
 }
 
+function extractStats(summaryData) {
+  if (!summaryData || !summaryData.boxscore || !summaryData.boxscore.teams) return null;
+  return summaryData.boxscore.teams.map(t => ({
+    team: t.team ? { id: t.team.id, name: t.team.displayName || t.team.name, logo: t.team.logo } : null,
+    stats: (t.statistics || []).map(s => ({
+      name: s.name,
+      label: s.label || s.name,
+      homeValue: s.displayValue || '0',
+      awayValue: '0'
+    }))
+  }));
+}
+
+function extractCombinedStats(summaryData) {
+  if (!summaryData || !summaryData.boxscore || !summaryData.boxscore.teams) return [];
+  const teams = summaryData.boxscore.teams;
+  if (teams.length < 2) return [];
+  const homeStats = teams[0].statistics || [];
+  const awayStats = teams[1].statistics || [];
+  const statMap = {};
+  homeStats.forEach(s => { statMap[s.name] = { label: s.label || s.name, homeValue: s.displayValue || '0', awayValue: '0' }; });
+  awayStats.forEach(s => {
+    if (statMap[s.name]) statMap[s.name].awayValue = s.displayValue || '0';
+    else statMap[s.name] = { label: s.label || s.name, homeValue: '0', awayValue: s.displayValue || '0' };
+  });
+  return Object.values(statMap);
+}
+
+function extractRosters(summaryData) {
+  if (!summaryData || !summaryData.rosters) return [];
+  return summaryData.rosters.map(r => ({
+    team: r.team ? { id: r.team.id, name: r.team.displayName || r.team.name, abbreviation: r.team.abbreviation, logo: r.team.logos && r.team.logos[0] ? r.team.logos[0].href : null } : null,
+    formation: r.formation || '',
+    players: (r.roster || []).map(p => ({
+      starter: p.starter || false,
+      jersey: p.jersey || '',
+      athlete: p.athlete ? {
+        id: p.athlete.id,
+        fullName: p.athlete.fullName,
+        shortName: p.athlete.shortName,
+        position: p.athlete.position ? p.athlete.position.name : '',
+        positionAbbr: p.athlete.position ? p.athlete.position.abbreviation : ''
+      } : null
+    }))
+  }));
+}
+
+function extractCommentary(summaryData) {
+  if (!summaryData || !summaryData.commentary) return [];
+  return summaryData.commentary.map(c => ({
+    sequence: c.sequence,
+    time: c.time ? c.time.displayValue || String(c.time.value) : '',
+    text: c.text || ''
+  }));
+}
+
+function extractArticle(summaryData) {
+  if (!summaryData || !summaryData.article) return null;
+  return {
+    headline: summaryData.article.headline || '',
+    content: summaryData.article.content || ''
+  };
+}
+
+function extractKeyEvents(summaryData) {
+  if (!summaryData || !summaryData.keyEvents) return [];
+  return summaryData.keyEvents.map(e => ({
+    text: e.text || '',
+    shortText: e.shortText || '',
+    clock: e.clock ? e.clock.displayValue || '' : '',
+    type: e.type ? e.type.text || '' : '',
+    scoringPlay: e.scoringPlay || false,
+    team: e.team ? e.team.displayName || '' : ''
+  }));
+}
+
 export {
   fetchScoreboard,
   fetchEventSummary,
+  fetchNews,
   extractEvents,
-  normalizeEvent
+  normalizeEvent,
+  extractCombinedStats,
+  extractRosters,
+  extractCommentary,
+  extractArticle,
+  extractKeyEvents
 };

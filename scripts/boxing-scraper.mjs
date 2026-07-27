@@ -8,6 +8,67 @@ const SITE_DIR = join(__dirname, '..', 'site');
 const LISTING_URL = 'https://streamseast.ws/boxing';
 const BOXING_ICON = 'https://a.espncdn.com/combiner/i?img=/redesign/assets/img/icons/ESPN-icon-boxing.png';
 
+function navHeader(R) {
+  return `<nav class="navbar navbar-expand-md navbar-light sticky-top">
+<div class="container-lg align-items-center">
+<a href="${R}index.html"><img src="${R}og.png" alt="StreamEast" style="width:37%;min-width:200px;height:auto;display:block;"></a>
+<button class="navbar-toggler px-0" type="button" data-mdb-toggle="offcanvas" data-mdb-target="#offcanvasNavbar"><i class="fas fa-bars"></i></button>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
+<div class="offcanvas-header pb-0"><h5 class="offcanvas-title">Main Menu</h5><button class="navbar-toggler px-0"><i class="fas fa-bars"></i></button></div>
+<div class="offcanvas-body"><ul class="nav navbar-nav ms-auto mb-2 mb-lg-0 justify-content-end flex-grow-1">
+<li class="nav-item"><a class="nav-link" href="${R}index.html"><span><i class="fas fa-home fa-lg"></i></span></a></li>
+<li class="nav-item"><a class="nav-link" href="${R}soccer/index.html">Soccer</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}nba/index.html">NBA</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}nfl/index.html">NFL</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}nhl/index.html">NHL</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}mlb/index.html">MLB</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}mma/index.html">MMA</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}boxing/index.html">Boxing</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}f1/index.html">Formula 1</a></li>
+</ul></div></div></div></nav>`;
+}
+
+function footerHTML(R) {
+  return `<footer class="bg-dark text-white mt-5 pt-4 pb-2">
+<div class="container-lg">
+<div class="row mb-4"><div class="col-12 text-center mb-3"><p class="mb-1 fw-bold">Get connected with us on social networks:</p>
+<div>
+<a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+<a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+<a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+<a href="#" class="text-white me-3"><i class="fab fa-youtube"></i></a>
+<a href="#" class="text-white"><i class="fab fa-reddit-alien"></i></a>
+</div></div></div>
+<div class="row">
+<div class="col-md-4 mb-3">
+<h6 class="text-uppercase fw-bold">StreamEast</h6>
+<p class="small text-white-50">StreamEast offers news about sports events like football, basketball, hockey, soccer and college sports. Including game date and time, location and venue, standings, latest news from various sources and how to watch with TV schedule.</p>
+</div>
+<div class="col-md-4 mb-3">
+<h6 class="text-uppercase fw-bold">Competitions</h6>
+<ul class="list-unstyled small">
+<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Champions League</a></li>
+<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Premier League</a></li>
+<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">LaLiga</a></li>
+<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Serie A</a></li>
+<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Ligue 1</a></li>
+</ul>
+</div>
+<div class="col-md-4 mb-3">
+<h6 class="text-uppercase fw-bold">Teams</h6>
+<ul class="list-unstyled small">
+<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Liverpool</a></li>
+<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Manchester United</a></li>
+<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Real Madrid</a></li>
+<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Barcelona</a></li>
+<li><a href="${R}soccer/index.html" class="text-white-50 text-decoration-none">Paris Saint-Germain</a></li>
+</ul>
+</div>
+</div>
+<div class="row"><div class="col-12 text-center"><p class="small text-white-50 mb-0">&copy;2026 Streameast</p></div></div>
+</div></footer>`;
+}
+
 function esc(str) {
   if (!str) return '';
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -127,23 +188,7 @@ function renderMatchPage(ev) {
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#8B2E3D"></head>
 <body>
-<nav class="navbar navbar-expand-md navbar-light sticky-top">
-<div class="container-lg align-items-center">
-<a href="${R}index.html"><img src="${R}og.png" alt="StreamEast" style="width:37%;min-width:200px;height:auto;display:block;"></a>
-<button class="navbar-toggler px-0" type="button" data-mdb-toggle="offcanvas" data-mdb-target="#offcanvasNavbar"><i class="fas fa-bars"></i></button>
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
-<div class="offcanvas-header pb-0"><h5 class="offcanvas-title">Main Menu</h5><button class="navbar-toggler px-0"><i class="fas fa-bars"></i></button></div>
-<div class="offcanvas-body"><ul class="nav navbar-nav ms-auto mb-2 mb-lg-0 justify-content-end flex-grow-1">
-<li class="nav-item"><a class="nav-link" href="${R}index.html"><span><i class="fas fa-home fa-lg"></i></span></a></li>
-<li class="nav-item"><a class="nav-link" href="${R}soccer/index.html">Soccer</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}nba/index.html">NBA</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}nfl/index.html">NFL</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}nhl/index.html">NHL</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}mlb/index.html">MLB</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}mma/index.html">MMA</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}boxing/index.html">Boxing</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}f1/index.html">Formula 1</a></li>
-</ul></div></div></div></nav>
+${navHeader(R)}
 <main class="container-lg"><div class="list-matches px-2"><div id="tbody3">
 <nav aria-label="breadcrumb"><ol class="breadcrumb">
 <li class="breadcrumb-item"><a class="linkUn" href="${R}index.html">Home</a></li>
@@ -164,6 +209,7 @@ ${away ? `<div class="mph-team">${BOXING_ICON ? `<img class="mph-teamlogo" src="
 ${vName ? `<i class="fas fa-location-arrow"></i> <span class="fw-bold">Venue: </span>${esc(vName)}<br>` : ''}
 </div></div></div></div>
 </div></div></main>
+${footerHTML(R)}
 <script>let isLive="pre";</script>
 <script src="${R}js/app_ver%3D1698506434.js"></script>
 </body></html>`;
@@ -185,35 +231,23 @@ ${m._venue ? `<p class="card-text text-muted small mb-0">${esc(m._venue.fullName
 </div></div></a></div>`;
   }).join('\n');
 
+  const R = '../';
   return `<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="index,follow">
 <title>Boxing Streams | Live Boxing Events &amp; Fights</title>
-<link rel="canonical" href="index.html"><link rel="shortcut icon" href="../nav.png" type="image/png">
-<link rel="stylesheet" href="../assets/css/style.css" type="text/css">
-<link rel="preload" href="../assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="canonical" href="index.html"><link rel="shortcut icon" href="${R}nav.png" type="image/png">
+<link rel="stylesheet" href="${R}assets/css/style.css" type="text/css">
+<link rel="preload" href="${R}assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <meta name="theme-color" content="#8B2E3D"></head>
 <body>
-<nav class="navbar navbar-expand-md navbar-light sticky-top"><div class="container-lg align-items-center">
-<a href="../index.html"><img src="../og.png" alt="StreamEast" style="width:37%;min-width:200px;height:auto;display:block;"></a>
-<button class="navbar-toggler px-0" type="button" data-mdb-toggle="offcanvas" data-mdb-target="#offcanvasNavbar"><i class="fas fa-bars"></i></button>
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
-<div class="offcanvas-header pb-0"><h5 class="offcanvas-title">Main Menu</h5><button class="navbar-toggler px-0"><i class="fas fa-bars"></i></button></div>
-<div class="offcanvas-body"><ul class="nav navbar-nav ms-auto mb-2 mb-lg-0 justify-content-end flex-grow-1">
-<li class="nav-item"><a class="nav-link" href="../index.html"><span><i class="fas fa-home fa-lg"></i></span></a></li>
-<li class="nav-item"><a class="nav-link" href="../soccer/index.html">Soccer</a></li>
-<li class="nav-item"><a class="nav-link" href="../nba/index.html">NBA</a></li>
-<li class="nav-item"><a class="nav-link" href="../nfl/index.html">NFL</a></li>
-<li class="nav-item"><a class="nav-link" href="../nhl/index.html">NHL</a></li>
-<li class="nav-item"><a class="nav-link" href="../mlb/index.html">MLB</a></li>
-<li class="nav-item"><a class="nav-link" href="../mma/index.html">MMA</a></li>
-<li class="nav-item"><a class="nav-link" href="../boxing/index.html">Boxing</a></li>
-<li class="nav-item"><a class="nav-link" href="../f1/index.html">Formula 1</a></li>
-</ul></div></div></div></nav>
+${navHeader(R)}
 <main class="container-lg py-5">
-<nav aria-label="breadcrumb"><ol class="breadcrumb text-secondary"><li class="breadcrumb-item"><a href="../index.html" class="text-danger">Home</a></li><li class="breadcrumb-item active">Boxing</li></ol></nav>
+<nav aria-label="breadcrumb"><ol class="breadcrumb text-secondary"><li class="breadcrumb-item"><a href="${R}index.html" class="text-danger">Home</a></li><li class="breadcrumb-item active">Boxing</li></ol></nav>
 <hr class="border-danger border-5 mb-7 w-250 mx-auto">
 <div class="row g-3">${items||'<div class="col-12 text-center text-white"><p>No upcoming boxing events.</p></div>'}</div>
-</main></body></html>`;
+</main>
+${footerHTML(R)}
+</body></html>`;
 }
 
 export { fetchBoxingListing, extractEvents, renderMatchPage, renderListing };

@@ -10,15 +10,13 @@ const CONFIG_PATH = join(ROOT, 'sports-config.json');
 
 const config = JSON.parse(readFileSync(CONFIG_PATH, 'utf-8'));
 
-import { fetchScoreboard, fetchEventSummary, extractEvents, normalizeEvent } from './espn-client.mjs';
+import { fetchScoreboard, fetchEventSummary, fetchNews, extractEvents, normalizeEvent, extractCombinedStats, extractRosters, extractCommentary, extractArticle, extractKeyEvents } from './espn-client.mjs';
 import { renderMatchPage, renderSportListing, renderHomepage, slugify } from './renderer.mjs';
 import { fetchBoxingListing, extractEvents as extractBoxingEvents, renderMatchPage as renderBoxingMatch, renderListing as renderBoxingListing } from './boxing-scraper.mjs';
 
 function loadManifest() {
   if (!existsSync(MANIFEST_PATH)) return {};
-  try {
-    return JSON.parse(readFileSync(MANIFEST_PATH, 'utf-8'));
-  } catch { return {}; }
+  try { return JSON.parse(readFileSync(MANIFEST_PATH, 'utf-8')); } catch { return {}; }
 }
 
 function saveManifest(m) {
@@ -60,7 +58,11 @@ async function processSport(sportKey, sportCfg) {
         console.log(`[${sportKey}/${league}] No data`);
         continue;
       }
-      const events = extractEvents(data).map(e => normalizeEvent(e)).filter(Boolean);
+      const events = extractEvents(data).map(e => {
+        const n = normalizeEvent(e);
+        if (n) n._sourceLeague = league;
+        return n;
+      }).filter(Boolean);
       console.log(`[${sportKey}/${league}] Found ${events.length} events`);
       allEvents.push(...events);
     } catch (err) {
@@ -73,16 +75,30 @@ async function processSport(sportKey, sportCfg) {
 
 async function processMatch(sportKey, sportCfg, event) {
   const eventId = String(event.id);
-  const normalized = sportCfg.scrape ? event : (() => {
-    const leagueForSummary = sportCfg.leagues[0];
-    let summaryData = null;
-    // summary fetch happens in parallel later if needed
-    return event;
-  })();
+  const normalized = sportCfg.scrape ? event : event;
 
   if (!normalized) {
     console.log(`[${sportKey}/${eventId}] Could not normalize event, skipping`);
     return;
+  }
+
+  // For non-scrape sports, fetch detailed summary
+  let extra = {};
+  if (!sportCfg.scrape) {
+    const leagueForSummary = event._sourceLeague || sportCfg.leagues[0];
+    try {
+      const rawSummary = await fetchEventSummary(sportCfg.sport, leagueForSummary, eventId);
+      if (rawSummary) {
+        extra.stats = extractCombinedStats(rawSummary);
+        extra.rosters = extractRosters(rawSummary);
+        extra.commentary = extractCommentary(rawSummary);
+        extra.article = extractArticle(rawSummary);
+        extra.keyEvents = extractKeyEvents(rawSummary);
+        extra.attendance = rawSummary.gameInfo && rawSummary.gameInfo.attendance ? String(rawSummary.gameInfo.attendance) : '';
+      }
+    } catch (err) {
+      console.log(`[${sportKey}/${eventId}] Summary fetch failed: ${err.message}`);
+    }
   }
 
   const shortName = normalized.shortName || normalized.name;
@@ -92,7 +108,7 @@ async function processMatch(sportKey, sportCfg, event) {
 
   const html = sportCfg.scrape
     ? renderBoxingMatch(normalized)
-    : renderMatchPage(normalized, sportCfg);
+    : renderMatchPage(normalized, sportCfg, extra);
   writeFileSync(join(pageDir, 'index.html'), html);
   console.log(`[${sportKey}/${eventId}] Saved: ${sportCfg.dir}/${eventId}/${matchSlug}/index.html`);
 }
@@ -105,10 +121,21 @@ function getSportLabel(key) {
   return labels[key] || key.charAt(0).toUpperCase() + key.slice(1);
 }
 
+async function fetchSportNews(sportCfg) {
+  if (sportCfg.scrape) return [];
+  const league = sportCfg.leagues[0];
+  try {
+    const data = await fetchNews(sportCfg.sport, league);
+    if (data && data.articles) return data.articles;
+  } catch (err) {
+    // silent
+  }
+  return [];
+}
+
 async function main() {
   console.log(`=== StreamEast Updater ===`);
   console.log(`Date: ${DATE_STR}`);
-  console.log(`Site dir: ${SITE_DIR}`);
   console.log();
 
   const manifest = loadManifest();
@@ -128,11 +155,7 @@ async function main() {
       const eventKey = `${sportKey}/${eventId}`;
 
       if (!manifest.events[eventKey]) {
-        manifest.events[eventKey] = {
-          sport: sportKey,
-          id: eventId,
-          firstSeen: new Date().toISOString()
-        };
+        manifest.events[eventKey] = { sport: sportKey, id: eventId, firstSeen: new Date().toISOString() };
       }
 
       const alreadyExists = existsSync(join(SITE_DIR, sportCfg.dir, eventId));
@@ -141,11 +164,14 @@ async function main() {
       }
     }
 
+    // Fetch news for this sport
+    const newsArticles = await fetchSportNews(sportCfg);
+
     const listingHtml = sportCfg.scrape
       ? renderBoxingListing(events)
-      : renderSportListing(sportCfg, events, getSportLabel(sportKey));
+      : renderSportListing(sportCfg, events, getSportLabel(sportKey), { news: newsArticles });
     writeFileSync(join(dir, 'index.html'), listingHtml);
-    console.log(`[${sportKey}] Listing page updated`);
+    console.log(`[${sportKey}] Listing page updated${newsArticles.length ? ` (${newsArticles.length} news articles)` : ''}`);
   }
 
   const homepageHtml = renderHomepage(allSportEvents);
