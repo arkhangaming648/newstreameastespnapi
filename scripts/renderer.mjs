@@ -176,12 +176,12 @@ function renderCommentary(commentary, keyEvents) {
 
 function renderNews(newsArticles, R, sportDir) {
   if (!newsArticles || newsArticles.length === 0) return '';
-  const items = newsArticles.slice(0, 6).map(a => {
+  const items = newsArticles.slice(0, 5).map(a => {
     const href = a.links && a.links.web ? a.links.web.href : '#';
-    return `<div class="col-12 mb-1"><a href="${esc(href)}" target="_blank" rel="noopener" class="text-decoration-none"><p class="mb-0 small">&bull; ${esc(a.headline || '')}</p></a></div>`;
+    const img = a.images && a.images[0] ? a.images[0].url || a.images[0].href || a.images[0].src : (a.image ? a.image.url || a.image.href || a.image.src : '');
+    return `<div class="row g-0" style="border-top:1px dotted #dcdddf;padding:10px;"><div class="col-md-3">${img ? `<img src="${img}" class="img-fluid rounded-start animation fade-in" style="min-height:60px;width:100%;" loading="lazy" alt="${esc(a.headline||'')}" onerror="this.remove()">` : ''}</div><div class="col-md-9"><div class="card-body card-body-news"><a href="${esc(href)}" target="_blank" rel="noopener" class="text-reset text-decoration-none"><span class="hor-news-title text-reset">${esc(a.headline||'')}</span></a><p class="card-text side-news-desc">${esc(a.description||a.caption||'')}</p></div></div></div>`;
   }).join('\n');
-  return `<div class="card mb-3"><h3 class="card-header">${esc(sportDir || '')} News</h3>
-<div class="card-body py-2">${items}</div></div>`;
+  return `<div class="card mb-3 border-0"><h3 class="card-header">${esc(sportDir || '')} News</h3>${items}</div>`;
 }
 
 function renderMatchPage(normalized, sportCfg, extra) {
@@ -244,9 +244,15 @@ ${home ? `<div class="mph-team">${home.logo ? `<a href="${R}soccer/team/${home.i
 ${away ? `<div class="mph-team">${away.logo ? `<a href="${R}soccer/team/${away.id}/${slugify(away.name)}/index.html"><img class="mph-teamlogo" src="${away.logo}" width="70" height="70" alt="${esc(away.abbreviation)}"></a>` : ''}<div class="mph-teamname-text"><a class="linkUn" href="${R}soccer/team/${away.id}/${slugify(away.name)}/index.html">${esc(away.name)}</a></div></div>` : ''}
 </div></div></div>
 
-<div class="row">
+<div class="row px-3">
 <div class="col-lg-8">
+<div class="card mb-3"><h3 class="card-header">About</h3><div class="card-body lh-base">${esc(home ? home.name : '')} are hosting ${esc(away ? away.name : '')} at ${esc(vName || '')}, ${esc(vCity || '')}, starting on ${formatDate(dateISO)}. The match is a part of the ${esc(leagueName || '')}.</div></div>
 ${renderCommentary(commentary, keyEvents)}
+${stats && stats.length ? `<div class="mt-3"><h3 class="widgetTitle">Statistics</h3>
+<table class="table table-striped text-center">
+<thead><tr><th title="${esc(away ? away.name : 'Away')}">${esc(away ? away.abbreviation : '')}</th><th></th><th title="${esc(home ? home.name : 'Home')}">${esc(home ? home.abbreviation : '')}</th></tr></thead>
+<tbody>${stats.map(s => `<tr><td>${esc(s.awayValue || '0')}</td><td class="fw-bold small">${esc(s.label || s.name || '')}</td><td>${esc(s.homeValue || '0')}</td></tr>`).join('\n')}</tbody>
+</table></div>` : ''}
 </div>
 <div class="col-lg-4">
 <div class="card mb-3"><h3 class="card-header">Game Information</h3><div class="card-body lh-lg py-2 small">
@@ -257,12 +263,11 @@ ${vName ? `<i class="fas fa-location-arrow"></i> <span class="fw-bold">Venue: </
 ${vCity ? `<i class="fas fa-map-marker-alt"></i> <span class="fw-bold">Location: </span>${esc(vCity)}${vCountry ? `, ${esc(vCountry)}` : ''}<br>` : ''}
 ${vAttendance ? `<i class="fas fa-users"></i> <span class="fw-bold">Attendance: </span>${esc(vAttendance)}<br>` : ''}
 </div></div>
-${renderStatsTable(stats, home ? home.name : 'Home', away ? away.name : 'Away')}
-${renderNews(newsArticles, R, sportCfg.dir)}
 </div>
 </div>
 
 ${renderRosters(rosters)}
+${renderNews(newsArticles, R, leagueName || sportCfg.dir)}
 </main>
 ${footerHTML(R)}
 <script>let isLive="pre";let url="https://www.espn.com/${sportCfg.sport}/match?gameId=${eventId}&xhr=1";</script>

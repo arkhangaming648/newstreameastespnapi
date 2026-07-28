@@ -106,6 +106,10 @@ async function processMatch(sportKey, sportCfg, event) {
     } catch (err) {
       console.log(`[${sportKey}/${eventId}] Summary fetch failed: ${err.message}`);
     }
+    try {
+      const newsRaw = await fetchNews(sportCfg.sport, leagueForSummary);
+      if (newsRaw && newsRaw.articles) extra.news = newsRaw.articles;
+    } catch { /* silent */ }
   }
 
   const shortName = normalized.shortName || normalized.name;
