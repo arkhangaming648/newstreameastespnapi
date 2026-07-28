@@ -7,6 +7,7 @@ const SITE_DIR = join(__dirname, '..', 'site');
 
 const LISTING_URL = 'https://streamseast.ws/boxing';
 const BOXING_ICON = 'https://a.espncdn.com/combiner/i?img=/redesign/assets/img/icons/ESPN-icon-boxing.png';
+const BOXING_ICON_CARD = BOXING_ICON + '&h=60&w=60&scale=crop&cquality=40';
 
 function navHeader(R) {
   return `<nav class="navbar navbar-expand-md navbar-light sticky-top">
@@ -166,71 +167,77 @@ function extractEvents(html) {
 }
 
 function renderMatchPage(ev) {
-  const competitors = ev._competitors || [];
-  const home = competitors.find(c => c.homeAway === 'home');
-  const away = competitors.find(c => c.homeAway === 'away');
   const vName = ev._venue ? ev._venue.fullName : '';
   const dateObj = new Date(ev.date);
   const dStr = dateObj.toISOString().slice(0,10);
   const dateFormatted = dateObj.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric', timeZone:'UTC' });
-  const timeFormatted = dateObj.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit', timeZone:'UTC', hour12:true });
-  const statusText = ev.status && ev.status.type ? ev.status.type.shortDetail : dateFormatted;
   const R = '../../../';
 
   return `<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="index,follow">
-<title>${esc(ev.name)} Live stream</title>
+<title>${esc(ev.name)} - Live Stream</title>
 <meta name="description" content="Watch ${esc(ev.name)} live boxing streaming.">
 <link rel="canonical" href="${R}boxing/${ev.id}/${slugify(ev.shortName||ev.name)}/index.html">
 <link rel="shortcut icon" href="${R}nav.png" type="image/png">
 <link rel="stylesheet" href="${R}assets/css/style.css" type="text/css">
 <link rel="preload" href="${R}assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<meta property="og:title" content="${esc(ev.name)} Live stream">
+<meta property="og:title" content="${esc(ev.name)} - Live Stream">
 <meta property="og:description" content="Watch ${esc(ev.name)} live boxing streaming.">
 <meta property="og:image" content="${R}og.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#8B2E3D"></head>
 <body>
 ${navHeader(R)}
-<main class="container-lg"><div class="list-matches px-2"><div id="tbody3">
-<nav aria-label="breadcrumb"><ol class="breadcrumb">
-<li class="breadcrumb-item"><a class="linkUn" href="${R}index.html">Home</a></li>
-<li class="breadcrumb-item"><a class="linkUn" href="../../index.html">Boxing</a></li>
-<li class="breadcrumb-item active">${esc(ev.name)}</li>
-</ol></nav>
-<div class="d-flex mb-2"><div><h1 class="match-head">${esc(ev.name)}</h1><span>${esc(dateFormatted)} - Boxing</span></div></div>
-<div id="mainBox" class="rounded"><div class="mph-main"><div class="mph-scoreboard">
-${home ? `<div class="mph-team">${BOXING_ICON ? `<img class="mph-teamlogo" src="${BOXING_ICON}" width="70" height="70" alt="">` : ''}<div class="mph-teamname-text">${esc(home.team.displayName||home.team.name)}</div></div>` : ''}
-<div class="mph-scoreline text-center"><span class="fw-bold"></span><br><span class="badge bg-danger" style="font-size:1.5em;margin:5px 0;">vs</span><br><span class="fw-bold"></span></div>
-${away ? `<div class="mph-team">${BOXING_ICON ? `<img class="mph-teamlogo" src="${BOXING_ICON}" width="70" height="70" alt="">` : ''}<div class="mph-teamname-text">${esc(away.team.displayName||away.team.name)}</div></div>` : ''}
-</div></div></div>
-<div class="row px-3"><div class="col-md-8"><div class="card mb-3"><h3 class="card-header">About</h3><div class="card-body lh-base">${esc(ev.name)}${vName ? ` taking place at ${esc(vName)}` : ''}, on ${dateFormatted}. ${ev.shortName ? `${esc(ev.shortName)}.` : ''}</div></div></div>
-<div class="col-md-4"><div class="card mb-3"><h3 class="card-header">Event Information</h3><div class="card-body lh-lg">
-<i class="fas fa-trophy"></i> <span class="fw-bold">Competition: </span>Boxing<br>
-<i class="fas fa-calendar"></i> <span class="fw-bold">Date: </span>${esc(dStr)}<br>
-<i class="fas fa-clock"></i> <span class="fw-bold">Time: </span>${esc(timeFormatted)} UTC<br>
-${vName ? `<i class="fas fa-location-arrow"></i> <span class="fw-bold">Venue: </span>${esc(vName)}<br>` : ''}
+<main class="container-lg py-5">
+<nav aria-label="breadcrumb"><ol class="breadcrumb text-secondary"><li class="breadcrumb-item"><a href="${R}index.html" class="text-danger">Home</a></li><li class="breadcrumb-item"><a href="../../index.html">Boxing</a></li><li class="breadcrumb-item active">${esc(ev.name)}</li></ol></nav>
+<div class="row mt-4"><div class="col-12 text-center">
+<h1 class="fw-bold text-white">${esc(ev.name)} - Live Stream</h1>
+<p class="text-muted small">No stream available yet.</p>
+</div></div>
+<div class="row mt-4"><div class="col-md-8 mx-auto"><div class="card bg-dark border border-secondary"><div class="card-body">
+<h3 class="card-title text-white">${esc(ev.name)}</h3>
+<h5 class="text-muted">Fight Details</h5>
+<ul class="list-unstyled text-white small">
+<li><span class="fw-bold">Date:</span> ${esc(dateFormatted)}</li>
+${vName ? `<li><span class="fw-bold">Venue:</span> ${esc(vName.split(',')[0].trim())}</li>` : ''}
+${vName && vName.includes(',') ? `<li><span class="fw-bold">Location:</span> ${esc(vName.split(',').slice(1).join(',').trim())}</li>` : ''}
+</ul>
 </div></div></div></div>
-</div></div></main>
+</main>
 ${footerHTML(R)}
 <script>let isLive="pre";</script>
 <script src="${R}js/ind_ver=1698506434.js"></script>
 </body></html>`;
 }
 
+function timeUntil(dateStr) {
+  const now = Date.now();
+  const diff = new Date(dateStr).getTime() - now;
+  if (diff <= 0) return '';
+  const hrs = Math.floor(diff / 3600000);
+  const mins = Math.floor((diff % 3600000) / 60000);
+  if (hrs >= 24) {
+    const days = Math.floor(hrs / 24);
+    return days === 1 ? '1 day from now' : `${days} days from now`;
+  }
+  if (hrs >= 1) return hrs === 1 ? '1 hour from now' : `${hrs} hours from now`;
+  return mins <= 1 ? '1 min from now' : `${mins} mins from now`;
+}
+
 function renderListing(matches) {
   const items = matches.map(m => {
     const home = m._competitors.find(c => c.homeAway === 'home');
     const away = m._competitors.find(c => c.homeAway === 'away');
+    const countdown = m.date ? timeUntil(m.date) : '';
     return `<div class="col-12"><a href="${m.id}/${slugify(m.shortName||m.name)}/index.html" class="text-decoration-none">
 <div class="card bg-dark border border-secondary"><div class="card-body d-flex align-items-center py-3">
-<div class="me-3"><img src="${BOXING_ICON}" alt="Boxing" class="rounded-circle" style="width:60px;height:60px;"></div>
+<div class="me-3"><img src="${BOXING_ICON_CARD}" alt="Gloves" class="rounded-circle"></div>
 <div class="flex-grow-1">
 <h5 class="card-title text-white mb-1 fs-5">${esc(m.name)}</h5>
 <p class="card-text text-secondary small mb-1">${esc(m.status&&m.status.type?m.status.type.shortDetail:'')}</p>
 ${m._venue ? `<p class="card-text text-muted small mb-0">${esc(m._venue.fullName)}</p>` : ''}
 </div>
-<div class="text-end"><span class="badge bg-danger">Boxing</span></div>
+<div class="text-end"><span class="badge bg-danger">Boxing</span>${countdown ? `<span class="d-block small text-white mt-1">${esc(countdown)}</span>` : ''}</div>
 </div></div></a></div>`;
   }).join('\n');
 

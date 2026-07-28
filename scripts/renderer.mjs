@@ -1,3 +1,5 @@
+import { getLeagueName, getLeagueSlug, getLeagueLogo } from './espn-client.mjs';
+
 function esc(str) {
   if (!str) return '';
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -572,35 +574,63 @@ function renderHomepage(sportMatches, extra) {
   const allNews = extra.news || {};
   const R = '';
 
-  const sections = Object.entries(sportMatches).filter(([,ms])=>ms&&ms.length).map(([name,matches], idx)=>{
-    const label = name.charAt(0).toUpperCase()+name.slice(1);
-    const icon = SPORT_ICONS[name] || '';
-    const isFirst = idx === 0;
-    const accordionId = `home-sport-${name}`;
-    const groupItems = matches.slice(0,10).map(m=>{
+  const LEAGUE_BUTTONS = [
+    { id: 'uefa.champions', label: 'Champions League' },
+    { id: 'uefa.europa', label: 'Europa League' },
+    { id: 'eng.1', label: 'Premier League' },
+    { id: 'esp.1', label: 'La Liga' },
+    { id: 'ita.1', label: 'Serie A' },
+    { id: 'fra.1', label: 'Ligue 1' },
+    { id: 'ger.1', label: 'Bundesliga' },
+    { id: 'por.1', label: 'Premiera Liga' }
+  ];
+
+  const soccerEvents = (sportMatches.soccer || []).filter(Boolean);
+  const leagueGroups = {};
+  for (const ev of soccerEvents) {
+    const ls = ev._sourceLeague || 'unknown';
+    if (!leagueGroups[ls]) leagueGroups[ls] = { name: getLeagueName(ls), events: [] };
+    leagueGroups[ls].events.push(ev);
+  }
+
+  const buttons = LEAGUE_BUTTONS.map(b => {
+    const slug = getLeagueSlug(b.id);
+    const logo = getLeagueLogo(b.id);
+    const btnUrl = logo ? `${logo}&scale=crop&cquality=40&location=origin&w=25&h=25` : '';
+    return `<a href="soccer/leagues/${slug}" class="btn btn-outline-light text-dark col-md-3 border ripple-surface-dark" data-mdb-ripple-color="dark" type="button">
+<img alt="${esc(b.label)}" class="me-1" src="${btnUrl}" width="25" height="25">
+<span>${esc(b.label)}</span></a>`;
+  }).join('\n');
+
+  const accordionItems = Object.entries(leagueGroups).map(([leagueId, group]) => {
+    const accordionId = slugify(leagueId);
+    const leagueLink = 'soccer/leagues/' + getLeagueSlug(leagueId);
+    const logo = getLeagueLogo(leagueId);
+    const hdrLogo = logo ? `${logo}&scale=crop&cquality=40&location=origin&w=40&h=40` : '';
+    const groupItems = group.events.slice(0, 10).map(m => {
       const competitors = m._competitors || [];
       const home = extractTeam(competitors, 'home');
       const away = extractTeam(competitors, 'away');
       const dateISO = m.date;
-      const slug = m.shortName ? slugify(m.shortName) : m.id;
-      return `<a href="${name}/${m.id}/${slug}/index.html" class="matches" aria-label="${esc(m.name)}">
+      const matchSlug = m.shortName ? slugify(m.shortName) : m.id;
+      const logoParams = (home && home.logo && home.logo.includes('?')) ? '' : '';
+      return `<a href="soccer/${m.id}/${matchSlug}/index.html" class="matches" aria-label="${esc(m.name)}">
 <div class="matches-block border rounded-3 d-block ripple"><div class="matches-main"><div class="matches-team"><div class="team-line centered">
-<div class="col-3-list">${home&&home.logo?`<img class="team-logo animation fade-in" src="${home.logo}" width="40" height="40" loading="lazy" alt="${esc(home.abbreviation)}">`:''}<span class="team-name">${esc(home?home.name:'')}</span></div>
+<div class="col-3-list">${home&&home.logo ? `<img class="team-logo animation fade-in" src="${home.logo}" width="40" height="40" loading="lazy" alt="${esc(home.abbreviation)}">` : ''}<span class="team-name">${esc(home ? home.name : '')}</span></div>
 <span class="prediction-score"><span class="matches-time"><div class="truncate">${formatTime(dateISO)}</div></span><span class="matches-time text-center"><span class="fw-bold fs-6">vs</span></span><span class="league text-center"></span></span>
-<div class="col-3-list">${away&&away.logo?`<img class="team-logo animation fade-in" src="${away.logo}" width="40" height="40" loading="lazy" alt="${esc(away.abbreviation)}">`:''}<span class="team-name">${esc(away?away.name:'')}</span></div>
+<div class="col-3-list">${away&&away.logo ? `<img class="team-logo animation fade-in" src="${away.logo}" width="40" height="40" loading="lazy" alt="${esc(away.abbreviation)}">` : ''}<span class="team-name">${esc(away ? away.name : '')}</span></div>
 </div></div></div></div></a>`;
     }).join('\n');
-    return `<div class="accordion-item border-0">
+    return `<div class="accordion-item border-0" style="">
 <h2 class="accordion-header" style="color:#00222e;font-family:Monda;font-size:1rem;">
-<button class="accordion-button ${isFirst?'':'collapsed'} py-2" type="button" data-mdb-toggle="collapse" data-mdb-target="#${accordionId}" style="box-shadow:unset;border-top:1px solid #ecedef;font-family:Verdana,Arial,Helvetica,sans-serif;color:#333;font-weight:600;white-space:nowrap;">
-<a href="${name}/index.html" style="text-decoration:none;color:inherit;" data-mdb-toggle="tooltip" title="See All">
-${icon ? `<img alt="${esc(label)}" src="${icon}" width="40" height="40" style="margin-right:5px;">` : ''}</a>${esc(label)}
+<button class="accordion-button collapsed py-2" type="button" data-mdb-toggle="collapse" data-mdb-target="#${accordionId}" aria-expanded="false" aria-controls="${accordionId}" style="box-shadow:unset;border-top:1px solid #ecedef;font-family:Verdana,Arial,Helvetica,sans-serif;color:#333;font-weight:600;white-space:nowrap;">
+<a href="${leagueLink}" data-mdb-toggle="tooltip" data-mdb-placement="top" title="See All">${hdrLogo ? `<img alt="${esc(group.name)}" src="${hdrLogo}" width="40" height="40" style="margin-right:5px;">` : ''}</a>${esc(group.name)}
 </button></h2>
-<div id="${accordionId}" class="accordion-collapse collapse ${isFirst?'show':''}" style="overflow-x:auto;">
+<div id="${accordionId}" class="accordion-collapse collapse " style="overflow-x:auto;">
 <div class="accordion-body px-0 pt-0 pb-3">${groupItems}</div></div></div>`;
   }).join('\n');
 
-  const allNewsItems = Object.values(allNews).flat().slice(0,6);
+  const allNewsItems = Object.values(allNews).flat().slice(0, 6);
 
   return `<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="index,follow">
@@ -617,12 +647,14 @@ ${navHeader(R)}
 <main class="container-lg overflow-auto"><div class="list-matches px-2"><div id="tbody3">
 <div class="row gx-3">
 <div class="${allNewsItems.length ? 'col-md-8' : 'col-12'} py-2">
-<h1 class="h1title mb-3">Today's Matches</h1>
-${sections||'<p class="text-muted text-center">No matches found for today.</p>'}
+<h1 class="h1title"><img alt="Football" src="https://a.espncdn.com/combiner/i?img=/redesign/assets/img/icons/ESPN-icon-soccer.png&h=80&w=80&scale=crop&cquality=40" width="40" height="40" style="width:40px;height:40px;vertical-align:top;"><span class="">Football Fixtures</span></h1>
+${buttons ? `<div class="league-section row mx-0 mb-1 shadow-none" style="padding:0.75rem 0.25rem;">${buttons}</div>` : ''}
+<div class="pb-3"></div>
+${accordionItems || '<div class="col-12 text-center text-white"><p>No matches found for today.</p></div>'}
 </div>
-${allNewsItems.length ? `<div class="col-md-4 py-2"><div class="league-section p-0"><h3 class="card-header">Headlines</h3><div class="card-body">${allNewsItems.map(a => {
+${allNewsItems.length ? `<div class="col-md-4 py-2"><div class="league-section p-0"><h3 class="card-header">Football Headlines</h3><div class="card-body">${allNewsItems.map(a => {
   const img = a.images && a.images[0] ? a.images[0].url || a.images[0].href || a.images[0].src : (a.image ? a.image.url || a.image.href || a.image.src : '');
-  return `${img ? `<img class="news-image-h animation fade-in" src="${img}" width="360" height="144" loading="lazy" alt="${esc(a.headline||'')}" style="max-width:100%;height:auto;" onerror="this.remove()">` : ''}
+  return `${img ? `<img class="news-image-h animation fade-in" src="${img}" width="360" height="144" loading="lazy" alt="${esc(a.headline||'')}" onerror="this.remove()">` : ''}
 <span class="side-news-title">${esc(a.headline||'')}</span>
 <p class="card-text side-news-desc">${esc(a.description||a.caption||'')}</p>`;
 }).join('\n')}</div></div></div>` : ''}
