@@ -209,9 +209,7 @@ function renderMatchPage(normalized, sportCfg, extra) {
   const newsArticles = extra.news || [];
   const R = '../../../';
 
-  const scoreDisplay = (home && home.score !== undefined && home.score !== '') || (away && away.score !== undefined && away.score !== '')
-    ? `<span class="fw-bold fs-3">${home ? esc(home.score) : ''}</span><br><span class="badge bg-danger" style="font-size:1.2em;margin:5px 0;">vs</span><br><span class="fw-bold fs-3">${away ? esc(away.score) : ''}</span>`
-    : `<span class="badge bg-danger" style="font-size:1.5em;margin:5px 0;">vs</span>`;
+  const scoreDisplay = renderMatchResult(ev, home, away);
 
   const statusBadge = statusText ? `<span class="badge bg-success ms-2">${esc(statusText)}</span>` : '';
 
@@ -233,7 +231,7 @@ ${navHeader(R)}
 <main class="container-lg pt-3">
 <nav aria-label="breadcrumb"><ol class="breadcrumb">
 <li class="breadcrumb-item"><a class="linkUn" href="${R}index.html">Home</a></li>
-<li class="breadcrumb-item"><a class="linkUn" href="${R}${sportCfg.dir}/index.html">${esc(leagueName || sportCfg.dir)}</a></li>
+${leagueSlug ? `<li class="breadcrumb-item"><a class="linkUn" href="${R}${sportCfg.dir}/leagues/${leagueSlug}/index.html">${esc(leagueName)}</a></li>` : `<li class="breadcrumb-item"><a class="linkUn" href="${R}${sportCfg.dir}/index.html">${esc(sportCfg.dir)}</a></li>`}
 <li class="breadcrumb-item active">${esc(ev.name)}</li>
 </ol></nav>
 <div class="d-flex mb-2 flex-wrap align-items-center"><div><h1 class="match-head mb-0">${esc(ev.name)}</h1><span class="small text-white-50">${formatDate(dateISO)} - ${esc(leagueName)}${statusBadge}</span></div></div>
@@ -241,9 +239,9 @@ ${navHeader(R)}
 ${article ? `<div class="alert alert-secondary py-2 mb-3 small">${esc(article.headline)}</div>` : ''}
 
 <div id="mainBox" class="rounded mb-3"><div class="mph-main"><div class="mph-scoreboard">
-${home ? `<div class="mph-team">${home.logo ? `<img class="mph-teamlogo" src="${home.logo}" width="70" height="70" alt="${esc(home.abbreviation)}">` : ''}<div class="mph-teamname-text">${esc(home.name)}</div></div>` : ''}
+${home ? `<div class="mph-team">${home.logo ? `<a href="${R}soccer/team/${home.id}/${slugify(home.name)}/index.html"><img class="mph-teamlogo" src="${home.logo}" width="70" height="70" alt="${esc(home.abbreviation)}"></a>` : ''}<div class="mph-teamname-text"><a class="linkUn" href="${R}soccer/team/${home.id}/${slugify(home.name)}/index.html">${esc(home.name)}</a></div></div>` : ''}
 <div class="mph-scoreline text-center"><span class="status-badge" id="gameStatus-${eventId}">${scoreDisplay}</span></div>
-${away ? `<div class="mph-team">${away.logo ? `<img class="mph-teamlogo" src="${away.logo}" width="70" height="70" alt="${esc(away.abbreviation)}">` : ''}<div class="mph-teamname-text">${esc(away.name)}</div></div>` : ''}
+${away ? `<div class="mph-team">${away.logo ? `<a href="${R}soccer/team/${away.id}/${slugify(away.name)}/index.html"><img class="mph-teamlogo" src="${away.logo}" width="70" height="70" alt="${esc(away.abbreviation)}"></a>` : ''}<div class="mph-teamname-text"><a class="linkUn" href="${R}soccer/team/${away.id}/${slugify(away.name)}/index.html">${esc(away.name)}</a></div></div>` : ''}
 </div></div></div>
 
 <div class="row">
