@@ -242,7 +242,7 @@ ${article ? `<div class="alert alert-secondary py-2 mb-3 small">${esc(article.he
 
 <div id="mainBox" class="rounded mb-3"><div class="mph-main"><div class="mph-scoreboard">
 ${home ? `<div class="mph-team">${home.logo ? `<img class="mph-teamlogo" src="${home.logo}" width="70" height="70" alt="${esc(home.abbreviation)}">` : ''}<div class="mph-teamname-text">${esc(home.name)}</div></div>` : ''}
-<div class="mph-scoreline text-center">${scoreDisplay}</div>
+<div class="mph-scoreline text-center"><span class="status-badge" id="gameStatus-${eventId}">${scoreDisplay}</span></div>
 ${away ? `<div class="mph-team">${away.logo ? `<img class="mph-teamlogo" src="${away.logo}" width="70" height="70" alt="${esc(away.abbreviation)}">` : ''}<div class="mph-teamname-text">${esc(away.name)}</div></div>` : ''}
 </div></div></div>
 

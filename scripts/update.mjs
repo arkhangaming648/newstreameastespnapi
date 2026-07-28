@@ -193,6 +193,9 @@ async function generateLeaguePages(sportKey, sportCfg, allEvents) {
           if (fallbackEvents.length > 0) {
             leagueEvents.push(...fallbackEvents);
             console.log(`[${sportKey}/${league}] Fallback (no date) — ${fallbackEvents.length} events`);
+            for (const fbEv of fallbackEvents) {
+              await processMatch(sportKey, sportCfg, fbEv);
+            }
           }
         } catch (err) {
           console.log(`[${sportKey}/${league}] Fallback scoreboard fetch failed: ${err.message}`);
