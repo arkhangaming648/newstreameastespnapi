@@ -179,7 +179,7 @@ function renderNews(newsArticles, R, sportDir) {
   const items = newsArticles.slice(0, 5).map(a => {
     const href = a.links && a.links.web ? a.links.web.href : '#';
     const img = a.images && a.images[0] ? a.images[0].url || a.images[0].href || a.images[0].src : (a.image ? a.image.url || a.image.href || a.image.src : '');
-    return `<div class="row g-0" style="border-top:1px dotted #dcdddf;padding:10px;"><div class="col-md-3">${img ? `<img src="${img}" class="img-fluid rounded-start animation fade-in" style="min-height:60px;width:100%;" loading="lazy" alt="${esc(a.headline||'')}" onerror="this.remove()">` : ''}</div><div class="col-md-9"><div class="card-body card-body-news"><a href="${esc(href)}" target="_blank" rel="noopener" class="text-reset text-decoration-none"><span class="hor-news-title text-reset">${esc(a.headline||'')}</span></a><p class="card-text side-news-desc">${esc(a.description||a.caption||'')}</p></div></div></div>`;
+    return `<div class="row g-0" style="border-top:1px dotted #dcdddf;padding:10px;"><div class="col-md-3">${img ? `<img src="${img}" class="img-fluid rounded-start animation fade-in" style="min-height:60px;width:100%;" loading="lazy" alt="${esc(a.headline||'')}" onerror="this.remove()">` : ''}</div><div class="col-md-9"><div class="card-body card-body-news"><span class="hor-news-title text-reset">${esc(a.headline||'')}</span><p class="card-text side-news-desc">${esc(a.description||a.caption||'')}</p></div></div></div>`;
   }).join('\n');
   return `<div class="card mb-3 border-0"><h3 class="card-header">${esc(sportDir || '')} News</h3>${items}</div>`;
 }
