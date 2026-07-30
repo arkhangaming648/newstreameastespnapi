@@ -1,5 +1,20 @@
 import { getLeagueName, getLeagueSlug, getLeagueLogo } from './espn-client.mjs';
 
+const HISTATS = `<!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,5010743,4,0,0,0,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?5010743&101" alt="website page counter" border="0"></a></noscript>
+<!-- Histats.com  END  -->`;
+
+const ADSTERRA = `<script src="https://pl30592651.effectivecpmnetwork.com/82/30/86/8230866782c98a617447bd4836a7da02.js"></script>`;
+
 function esc(str) {
   if (!str) return '';
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -80,7 +95,7 @@ function footerHTML(R) {
 <section class="d-flex justify-content-center justify-content-lg-between p-3 border-bottom">
 <div class="me-5 d-none d-lg-block"><span>Get connected with us on social networks:</span></div>
 <div>
-<a href="https://www.facebook.com/" class="me-4 text-reset"><i class="fab fa-facebook-f"></i></a>
+<a href="#" class="me-4 text-reset"><i class="fab fa-facebook-f"></i></a>
 <a href="" class="me-4 text-reset"><i class="fab fa-twitter"></i></a>
 <a href="" class="me-4 text-reset"><i class="fab fa-google"></i></a>
 <a href="" class="me-4 text-reset"><i class="fab fa-instagram"></i></a>
@@ -114,7 +129,7 @@ function footerHTML(R) {
 </ul>
 </div>
 </div></div></section>
-<div class="text-center p-3" style="background-color:rgba(0,0,0,0.2);">&copy;2025 <a href="https://streameast.gl/" class="text-reset">Streameast</a></div>
+<div class="text-center p-3" style="background-color:rgba(0,0,0,0.2);">&copy;2025 Streameast</div>
 </footer>`;
 }
 
@@ -225,7 +240,7 @@ function renderMatchPage(normalized, sportCfg, extra) {
 <meta property="og:description" content="Watch ${esc(ev.name)} live streaming.">
 <meta property="og:image" content="${R}og.webp">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#8B2E3D"></head>
+<meta name="theme-color" content="#8B2E3D">${HISTATS}</head>
 <body>
 ${navHeader(R)}
 <main class="container-lg pt-3">
@@ -272,6 +287,7 @@ ${renderNews(newsArticles, R, leagueName || sportCfg.dir)}
 ${footerHTML(R)}
 <script>let isLive="pre";let url="https://www.espn.com/${sportCfg.sport}/match?gameId=${eventId}&xhr=1";</script>
 <script src="${R}js/ind_ver=1698506434.js"></script>
+${ADSTERRA}
 </body></html>`;
 }
 
@@ -313,7 +329,7 @@ function renderLeaguePage(sportCfg, leagueEvents, leagueSlug, leagueName, league
 <thead><tr><th title="Rank">#</th><th class="text-start">TEAM</th><th title="Games Played">GP</th><th title="Goal Difference">GD</th><th title="Points">PTS</th></tr></thead>
 <tbody>${standings.slice(0,20).map(s => `<tr>
 <td>${s.rank}</td>
-<td class="text-start text-nowrap"><a class="linkUn" href="../../team/${s.teamId}/${slugify(s.teamName)}/index.html">${esc(s.teamName)}</a></td>
+<td class="text-start text-nowrap"><a class="linkUn" href="../team/${s.teamId}/${slugify(s.teamName)}/index.html">${esc(s.teamName)}</a></td>
 <td>${s.gp}</td><td>${s.gd}</td><td>${s.pts}</td>
 </tr>`).join('\n')}</tbody></table></div>
 <div class="d-grid gap-2"><a class="btn btn-light btn-sm w-100 mb-3" data-mdb-ripple-color="dark" href="#">Full Standings</a></div>` : '';
@@ -325,7 +341,7 @@ function renderLeaguePage(sportCfg, leagueEvents, leagueSlug, leagueName, league
 <link rel="canonical" href="index.html"><link rel="shortcut icon" href="${R}nav.png" type="image/png">
 <link rel="stylesheet" href="${R}assets/css/style.css" type="text/css">
 <link rel="preload" href="${R}assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<meta name="theme-color" content="#8B2E3D"></head>
+<meta name="theme-color" content="#8B2E3D">${HISTATS}</head>
 <body>
 ${navHeader(R)}
 <main class="container-lg"><div class="list-matches px-2"><div id="tbody3">
@@ -349,6 +365,7 @@ ${standingsTable}
 </div></div></main>
 ${footerHTML(R)}
 <script src="${R}js/ind_ver=1698506434.js"></script>
+${ADSTERRA}
 </body></html>`;
 }
 
@@ -406,13 +423,11 @@ ${aLogo ? `<img src="${aLogo}" width="20" height="20" alt="${esc(aAbbr)}">` : ''
     const href = a.links && a.links.web ? a.links.web.href : '#';
     return `<div class="col-6 mb-3">
 <div class="card h-100">
-<a href="${esc(href)}" target="_blank" rel="noopener" class="text-decoration-none">
 ${img ? `<img class="card-img-top" src="${img}" width="360" height="144" loading="lazy" alt="${esc(a.headline||'')}" style="max-width:100%;height:auto;" onerror="this.remove()">` : ''}
 <div class="card-body p-2">
 <span class="side-news-title" style="font-size:13px;">${esc(a.headline||'')}</span>
 <p class="card-text side-news-desc small mb-0">${esc(a.description||a.caption||'')}</p>
 </div>
-</a>
 </div>
 </div>`;
   }).join('\n') || '<p class="text-muted small">No news available.</p>';
@@ -422,7 +437,7 @@ ${img ? `<img class="card-img-top" src="${img}" width="360" height="144" loading
 <thead><tr><th title="Rank">#</th><th class="text-start">TEAM</th><th title="Games Played">GP</th><th title="Goal Difference">GD</th><th title="Points">PTS</th></tr></thead>
 <tbody>${standings.slice(0,20).map(s => `<tr>
 <td>${s.rank}</td>
-<td class="text-start text-nowrap" style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><a class="linkUn" href="../team/${s.teamId}/${slugify(s.teamName)}/index.html" style="font-size:11px;">${esc(s.teamName)}</a></td>
+<td class="text-start text-nowrap" style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><a class="linkUn" href="../../../team/${s.teamId}/${slugify(s.teamName)}/index.html" style="font-size:11px;">${esc(s.teamName)}</a></td>
 <td>${s.gp}</td><td>${s.gd}</td><td><strong>${s.pts}</strong></td>
 </tr>`).join('\n')}</tbody></table>
 <div class="d-grid gap-2 mt-2"><a class="btn btn-light btn-sm w-100" href="../../leagues/${leagueSlug}/index.html">Full Standings</a></div>` : '<p class="text-muted small">Standings not available.</p>';
@@ -436,7 +451,7 @@ ${img ? `<img class="card-img-top" src="${img}" width="360" height="144" loading
 <link rel="preload" href="${R}assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <meta property="og:title" content="${esc(teamName)} - StreamEast">
 <meta property="og:description" content="Get ${esc(teamName)} fixtures, results and standings.">
-<meta name="theme-color" content="#8B2E3D"></head>
+<meta name="theme-color" content="#8B2E3D">${HISTATS}</head>
 <body>
 ${navHeader(R)}
 <main class="container-lg"><div class="list-matches px-2"><div id="tbody3">
@@ -477,6 +492,7 @@ ${standingsTable}
 </div></main>
 ${footerHTML(R)}
 <script src="${R}js/ind_ver=1698506434.js"></script>
+${ADSTERRA}
 </body></html>`;
 }
 
@@ -537,7 +553,7 @@ ${g.logo ? `<img alt="${esc(g.label)}" src="${g.logo}" width="40" height="40" st
 <link rel="canonical" href="index.html"><link rel="shortcut icon" href="${R}nav.png" type="image/png">
 <link rel="stylesheet" href="${R}assets/css/style.css" type="text/css">
 <link rel="preload" href="${R}assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<meta name="theme-color" content="#8B2E3D"></head>
+<meta name="theme-color" content="#8B2E3D">${HISTATS}</head>
 <body>
 ${navHeader(R)}
 <main class="container-lg overflow-auto"><div class="list-matches px-2"><div id="tbody3">
@@ -558,6 +574,7 @@ ${newsArticles.length ? `<div class="col-md-4 py-2"><div class="league-section p
 ${footerHTML(R)}
 <script type="text/javascript" src="${R}assets/js/jquery.min.js"></script>
 <script type="text/javascript" src="${R}assets/js/mdb.min.js"></script>
+${ADSTERRA}
 </body></html>`;
 }
 
@@ -644,7 +661,7 @@ function renderHomepage(sportMatches, extra) {
 <link rel="preload" href="assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <meta property="og:title" content="StreamEast - Free Live Sports Streaming">
 <meta property="og:description" content="StreamEast delivers free HD live sports.">
-<meta property="og:image" content="og.webp"><meta name="theme-color" content="#8B2E3D"></head>
+<meta property="og:image" content="og.webp"><meta name="theme-color" content="#8B2E3D">${HISTATS}</head>
 <body>
 ${navHeader(R)}
 <main class="container-lg overflow-auto"><div class="list-matches px-2"><div id="tbody3">
@@ -665,6 +682,7 @@ ${allNewsItems.length ? `<div class="col-md-4 py-2"><div class="league-section p
 ${footerHTML(R)}
 <script type="text/javascript" src="assets/js/jquery.min.js"></script>
 <script type="text/javascript" src="assets/js/mdb.min.js"></script>
+${ADSTERRA}
 </body></html>`;
 }
 

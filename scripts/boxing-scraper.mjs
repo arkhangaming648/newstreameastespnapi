@@ -9,6 +9,21 @@ const LISTING_URL = 'https://streamseast.ws/boxing';
 const BOXING_ICON = 'https://a.espncdn.com/combiner/i?img=/redesign/assets/img/icons/ESPN-icon-boxing.png';
 const BOXING_ICON_CARD = BOXING_ICON + '&h=60&w=60&scale=crop&cquality=40';
 
+const HISTATS = `<!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,5010743,4,0,0,0,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?5010743&101" alt="website page counter" border="0"></a></noscript>
+<!-- Histats.com  END  -->`;
+
+const ADSTERRA = `<script src="https://pl30592651.effectivecpmnetwork.com/82/30/86/8230866782c98a617447bd4836a7da02.js"></script>`;
+
 function navHeader(R) {
   return `<nav class="navbar navbar-expand-md navbar-light sticky-top">
 <div class="container-lg align-items-center">
@@ -35,7 +50,7 @@ function footerHTML(R) {
 <section class="d-flex justify-content-center justify-content-lg-between p-3 border-bottom">
 <div class="me-5 d-none d-lg-block"><span>Get connected with us on social networks:</span></div>
 <div>
-<a href="https://www.facebook.com/" class="me-4 text-reset"><i class="fab fa-facebook-f"></i></a>
+<a href="#" class="me-4 text-reset"><i class="fab fa-facebook-f"></i></a>
 <a href="" class="me-4 text-reset"><i class="fab fa-twitter"></i></a>
 <a href="" class="me-4 text-reset"><i class="fab fa-google"></i></a>
 <a href="" class="me-4 text-reset"><i class="fab fa-instagram"></i></a>
@@ -69,7 +84,7 @@ function footerHTML(R) {
 </ul>
 </div>
 </div></div></section>
-<div class="text-center p-3" style="background-color:rgba(0,0,0,0.2);">&copy;2025 <a href="https://streameast.gl/" class="text-reset">Streameast</a></div>
+<div class="text-center p-3" style="background-color:rgba(0,0,0,0.2);">&copy;2025 Streameast</div>
 </footer>`;
 }
 
@@ -185,7 +200,7 @@ function renderMatchPage(ev) {
 <meta property="og:description" content="Watch ${esc(ev.name)} live boxing streaming.">
 <meta property="og:image" content="${R}og.webp">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#8B2E3D"></head>
+<meta name="theme-color" content="#8B2E3D">${HISTATS}</head>
 <body>
 ${navHeader(R)}
 <main class="container-lg py-5">
@@ -207,6 +222,7 @@ ${vName && vName.includes(',') ? `<li><span class="fw-bold">Location:</span> ${e
 ${footerHTML(R)}
 <script>let isLive="pre";</script>
 <script src="${R}js/ind_ver=1698506434.js"></script>
+${ADSTERRA}
 </body></html>`;
 }
 
@@ -248,7 +264,7 @@ ${m._venue ? `<p class="card-text text-muted small mb-0">${esc(m._venue.fullName
 <link rel="canonical" href="index.html"><link rel="shortcut icon" href="${R}nav.png" type="image/png">
 <link rel="stylesheet" href="${R}assets/css/style.css" type="text/css">
 <link rel="preload" href="${R}assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<meta name="theme-color" content="#8B2E3D"></head>
+<meta name="theme-color" content="#8B2E3D">${HISTATS}</head>
 <body>
 ${navHeader(R)}
 <main class="container-lg py-5">
@@ -257,6 +273,7 @@ ${navHeader(R)}
 <div class="row g-3">${items||'<div class="col-12 text-center text-white"><p>No upcoming boxing events.</p></div>'}</div>
 </main>
 ${footerHTML(R)}
+${ADSTERRA}
 </body></html>`;
 }
 
