@@ -72,20 +72,20 @@ function extractTeam(competitors, side) {
 function navHeader(R) {
   return `<nav class="navbar navbar-expand-md navbar-light sticky-top">
 <div class="container-lg align-items-center">
-<a href="${R}index.html"><img src="${R}og.png" alt="StreamEast" style="width:37%;min-width:200px;height:auto;display:block;"></a>
+<a href="${R}"><img src="${R}og.png" alt="StreamEast" style="width:37%;min-width:200px;height:auto;display:block;"></a>
 <button class="navbar-toggler px-0" type="button" data-mdb-toggle="offcanvas" data-mdb-target="#offcanvasNavbar"><i class="fas fa-bars"></i></button>
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
 <div class="offcanvas-header pb-0"><h5 class="offcanvas-title">Main Menu</h5><button class="navbar-toggler px-0"><i class="fas fa-bars"></i></button></div>
 <div class="offcanvas-body"><ul class="nav navbar-nav ms-auto mb-2 mb-lg-0 justify-content-end flex-grow-1">
-<li class="nav-item"><a class="nav-link" href="${R}index.html"><span><i class="fas fa-home fa-lg"></i></span></a></li>
-<li class="nav-item"><a class="nav-link" href="${R}soccer/index.html">Soccer</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}nba/index.html">NBA</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}nfl/index.html">NFL</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}nhl/index.html">NHL</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}mlb/index.html">MLB</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}mma/index.html">MMA</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}boxing/index.html">Boxing</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}f1/index.html">Formula 1</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}"><span><i class="fas fa-home fa-lg"></i></span></a></li>
+<li class="nav-item"><a class="nav-link" href="${R}soccer/">Soccer</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}nba/">NBA</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}nfl/">NFL</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}nhl/">NHL</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}mlb/">MLB</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}mma/">MMA</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}boxing/">Boxing</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}f1/">Formula 1</a></li>
 </ul></div></div></div></nav>`;
 }
 
@@ -111,21 +111,21 @@ function footerHTML(R) {
 <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
 <h6 class="text-uppercase fw-bold mb-4">Competitions</h6>
 <ul class="list-unstyled mb-0">
-<li><a class="linkUn text-muted" href="${l('soccer/leagues/uefa-champions-league/index.html')}">Champions League</a></li>
-<li><a class="linkUn text-muted" href="${l('soccer/leagues/english-premier-league/index.html')}">Premier League</a></li>
-<li><a class="linkUn text-muted" href="${l('soccer/leagues/spanish-laliga/index.html')}">LaLiga</a></li>
-<li><a class="linkUn text-muted" href="${l('soccer/leagues/italian-serie-a/index.html')}">Serie A</a></li>
-<li><a class="linkUn text-muted" href="${l('soccer/leagues/french-ligue-1/index.html')}">Ligue 1</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/leagues/uefa-champions-league/')}">Champions League</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/leagues/english-premier-league/')}">Premier League</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/leagues/spanish-laliga/')}">LaLiga</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/leagues/italian-serie-a/')}">Serie A</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/leagues/french-ligue-1/')}">Ligue 1</a></li>
 </ul>
 </div>
 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
 <h6 class="text-uppercase fw-bold mb-4">Teams</h6>
 <ul class="list-unstyled mb-0">
-<li><a class="linkUn text-muted" href="${l('soccer/team/364/liverpool/index.html')}">Liverpool</a></li>
-<li><a class="linkUn text-muted" href="${l('soccer/team/360/manchester-united/index.html')}">Manchester United</a></li>
-<li><a class="linkUn text-muted" href="${l('soccer/team/86/real-madrid/index.html')}">Real Madrid</a></li>
-<li><a class="linkUn text-muted" href="${l('soccer/team/83/barcelona/index.html')}">Barcelona</a></li>
-<li><a class="linkUn text-muted" href="${l('soccer/team/160/paris-saint-germain/index.html')}">Paris Saint-Germain</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/team/364/liverpool/')}">Liverpool</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/team/360/manchester-united/')}">Manchester United</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/team/86/real-madrid/')}">Real Madrid</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/team/83/barcelona/')}">Barcelona</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/team/160/paris-saint-germain/')}">Paris Saint-Germain</a></li>
 </ul>
 </div>
 </div></div></section>
@@ -232,7 +232,7 @@ function renderMatchPage(normalized, sportCfg, extra) {
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="index,follow">
 <title>${esc(ev.name)} Live stream</title>
 <meta name="description" content="Summary of the ${esc(ev.name)} match.">
-<link rel="canonical" href="${R}${sportCfg.dir}/${eventId}/${matchSlug}/index.html">
+<link rel="canonical" href="${R}${sportCfg.dir}/${eventId}/${matchSlug}/">
 <link rel="shortcut icon" href="${R}nav.png" type="image/png">
 <link rel="stylesheet" href="${R}assets/css/style.css" type="text/css">
 <link rel="preload" href="${R}assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -245,8 +245,8 @@ function renderMatchPage(normalized, sportCfg, extra) {
 ${navHeader(R)}
 <main class="container-lg pt-3">
 <nav aria-label="breadcrumb"><ol class="breadcrumb">
-<li class="breadcrumb-item"><a class="linkUn" href="${R}index.html">Home</a></li>
-${leagueSlug ? `<li class="breadcrumb-item"><a class="linkUn" href="${R}${sportCfg.dir}/leagues/${leagueSlug}/index.html">${esc(leagueName)}</a></li>` : `<li class="breadcrumb-item"><a class="linkUn" href="${R}${sportCfg.dir}/index.html">${esc(sportCfg.dir)}</a></li>`}
+<li class="breadcrumb-item"><a class="linkUn" href="${R}">Home</a></li>
+${leagueSlug ? `<li class="breadcrumb-item"><a class="linkUn" href="${R}${sportCfg.dir}/leagues/${leagueSlug}/">${esc(leagueName)}</a></li>` : `<li class="breadcrumb-item"><a class="linkUn" href="${R}${sportCfg.dir}/">${esc(sportCfg.dir)}</a></li>`}
 <li class="breadcrumb-item active">${esc(ev.name)}</li>
 </ol></nav>
 <div class="d-flex mb-2 flex-wrap align-items-center"><div><h1 class="match-head mb-0">${esc(ev.name)}</h1><span class="small text-white-50">${formatDate(dateISO)} - ${esc(leagueName)}${statusBadge}</span></div></div>
@@ -254,9 +254,9 @@ ${leagueSlug ? `<li class="breadcrumb-item"><a class="linkUn" href="${R}${sportC
 ${article ? `<div class="alert alert-secondary py-2 mb-3 small">${esc(article.headline)}</div>` : ''}
 
 <div id="mainBox" class="rounded mb-3"><div class="mph-main"><div class="mph-scoreboard">
-${home ? `<div class="mph-team">${home.logo ? `<a href="${R}soccer/team/${home.id}/${slugify(home.name)}/index.html"><img class="mph-teamlogo" src="${home.logo}" width="70" height="70" alt="${esc(home.abbreviation)}"></a>` : ''}<div class="mph-teamname-text"><a class="linkUn" href="${R}soccer/team/${home.id}/${slugify(home.name)}/index.html">${esc(home.name)}</a></div></div>` : ''}
+${home ? `<div class="mph-team">${home.logo ? `<a href="${R}soccer/team/${home.id}/${slugify(home.name)}/"><img class="mph-teamlogo" src="${home.logo}" width="70" height="70" alt="${esc(home.abbreviation)}"></a>` : ''}<div class="mph-teamname-text"><a class="linkUn" href="${R}soccer/team/${home.id}/${slugify(home.name)}/">${esc(home.name)}</a></div></div>` : ''}
 <div class="mph-scoreline text-center"><span class="status-badge" id="gameStatus-${eventId}">${scoreDisplay}</span></div>
-${away ? `<div class="mph-team">${away.logo ? `<a href="${R}soccer/team/${away.id}/${slugify(away.name)}/index.html"><img class="mph-teamlogo" src="${away.logo}" width="70" height="70" alt="${esc(away.abbreviation)}"></a>` : ''}<div class="mph-teamname-text"><a class="linkUn" href="${R}soccer/team/${away.id}/${slugify(away.name)}/index.html">${esc(away.name)}</a></div></div>` : ''}
+${away ? `<div class="mph-team">${away.logo ? `<a href="${R}soccer/team/${away.id}/${slugify(away.name)}/"><img class="mph-teamlogo" src="${away.logo}" width="70" height="70" alt="${esc(away.abbreviation)}"></a>` : ''}<div class="mph-teamname-text"><a class="linkUn" href="${R}soccer/team/${away.id}/${slugify(away.name)}/">${esc(away.name)}</a></div></div>` : ''}
 </div></div></div>
 
 <div class="row px-3">
@@ -315,7 +315,7 @@ function renderLeaguePage(sportCfg, leagueEvents, leagueSlug, leagueName, league
     const home = extractTeam(competitors, 'home');
     const away = extractTeam(competitors, 'away');
     const slug = m.shortName ? slugify(m.shortName) : m.id;
-    const href = `../../${m.id}/${slug}/index.html`;
+    const href = `../../${m.id}/${slug}/`;
     return `<a href="${href}" class="matches" aria-label="${esc(m.name)}">
 <div class="matches-block border rounded-3 d-block ripple"><div class="matches-main"><div class="matches-team"><div class="team-line centered">
 <div class="col-3-list">${home&&home.logo?`<img class="team-logo animation fade-in" src="${home.logo}" width="40" height="40" loading="lazy" alt="${esc(home.abbreviation)}">`:''}<span class="team-name">${esc(home?home.name:'')}</span></div>
@@ -329,7 +329,7 @@ function renderLeaguePage(sportCfg, leagueEvents, leagueSlug, leagueName, league
 <thead><tr><th title="Rank">#</th><th class="text-start">TEAM</th><th title="Games Played">GP</th><th title="Goal Difference">GD</th><th title="Points">PTS</th></tr></thead>
 <tbody>${standings.slice(0,20).map(s => `<tr>
 <td>${s.rank}</td>
-<td class="text-start text-nowrap"><a class="linkUn" href="../team/${s.teamId}/${slugify(s.teamName)}/index.html">${esc(s.teamName)}</a></td>
+<td class="text-start text-nowrap"><a class="linkUn" href="../team/${s.teamId}/${slugify(s.teamName)}/">${esc(s.teamName)}</a></td>
 <td>${s.gp}</td><td>${s.gd}</td><td>${s.pts}</td>
 </tr>`).join('\n')}</tbody></table></div>
 <div class="d-grid gap-2"><a class="btn btn-light btn-sm w-100 mb-3" data-mdb-ripple-color="dark" href="#">Full Standings</a></div>` : '';
@@ -338,7 +338,7 @@ function renderLeaguePage(sportCfg, leagueEvents, leagueSlug, leagueName, league
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="index,follow">
 <title>${esc(leagueName)} Scores and Fixtures</title>
 <meta name="description" content="Get ${esc(leagueName)} Live Scores, Fixtures, Results, Schedules, News and Live Streams">
-<link rel="canonical" href="index.html"><link rel="shortcut icon" href="${R}nav.png" type="image/png">
+<link rel="canonical" href=""><link rel="shortcut icon" href="${R}nav.png" type="image/png">
 <link rel="stylesheet" href="${R}assets/css/style.css" type="text/css">
 <link rel="preload" href="${R}assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <meta name="theme-color" content="#8B2E3D">${HISTATS}</head>
@@ -346,8 +346,8 @@ function renderLeaguePage(sportCfg, leagueEvents, leagueSlug, leagueName, league
 ${navHeader(R)}
 <main class="container-lg"><div class="list-matches px-2"><div id="tbody3">
 <nav aria-label="breadcrumb"><ol class="breadcrumb">
-<li class="breadcrumb-item"><a class="linkUn" href="${R}index.html">Home</a></li>
-<li class="breadcrumb-item"><a class="linkUn" href="../../index.html">Football</a></li>
+<li class="breadcrumb-item"><a class="linkUn" href="${R}">Home</a></li>
+<li class="breadcrumb-item"><a class="linkUn" href="../../">Football</a></li>
 <li class="breadcrumb-item active">${esc(leagueName)}</li>
 </ol></nav>
 <h1 class="h1title mb-3">${leagueLogo ? `<img alt="${esc(leagueName)}" src="${leagueLogo}" width="40" height="40" style="vertical-align:top;">` : ''}<span class="">${esc(leagueName)}</span></h1>
@@ -391,7 +391,7 @@ function renderTeamPage(sportCfg, teamInfo, fixtures, newsArticles, standings) {
     const away = extractTeam(competitors, 'away');
     const dateISO = m.date;
     const slug = m.shortName ? slugify(m.shortName) : m.id;
-    const href = `../../${m.id}/${slug}/index.html`;
+    const href = `../../${m.id}/${slug}/`;
     const hAbbr = home ? (home.abbreviation || home.name.substring(0,3).toUpperCase()) : '';
     const aAbbr = away ? (away.abbreviation || away.name.substring(0,3).toUpperCase()) : '';
     const hLogo = home && home.logo ? home.logo : '';
@@ -437,16 +437,16 @@ ${img ? `<img class="card-img-top" src="${img}" width="360" height="144" loading
 <thead><tr><th title="Rank">#</th><th class="text-start">TEAM</th><th title="Games Played">GP</th><th title="Goal Difference">GD</th><th title="Points">PTS</th></tr></thead>
 <tbody>${standings.slice(0,20).map(s => `<tr>
 <td>${s.rank}</td>
-<td class="text-start text-nowrap" style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><a class="linkUn" href="../../../team/${s.teamId}/${slugify(s.teamName)}/index.html" style="font-size:11px;">${esc(s.teamName)}</a></td>
+<td class="text-start text-nowrap" style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><a class="linkUn" href="../../../team/${s.teamId}/${slugify(s.teamName)}/" style="font-size:11px;">${esc(s.teamName)}</a></td>
 <td>${s.gp}</td><td>${s.gd}</td><td><strong>${s.pts}</strong></td>
 </tr>`).join('\n')}</tbody></table>
-<div class="d-grid gap-2 mt-2"><a class="btn btn-light btn-sm w-100" href="../../leagues/${leagueSlug}/index.html">Full Standings</a></div>` : '<p class="text-muted small">Standings not available.</p>';
+<div class="d-grid gap-2 mt-2"><a class="btn btn-light btn-sm w-100" href="../../leagues/${leagueSlug}/">Full Standings</a></div>` : '<p class="text-muted small">Standings not available.</p>';
 
   return `<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="index,follow">
 <title>${esc(teamName)} - StreamEast</title>
 <meta name="description" content="${esc(teamName)} scores, fixtures, standings and news">
-<link rel="canonical" href="index.html"><link rel="shortcut icon" href="${R}nav.png" type="image/png">
+<link rel="canonical" href=""><link rel="shortcut icon" href="${R}nav.png" type="image/png">
 <link rel="stylesheet" href="${R}assets/css/style.css" type="text/css">
 <link rel="preload" href="${R}assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <meta property="og:title" content="${esc(teamName)} - StreamEast">
@@ -456,8 +456,8 @@ ${img ? `<img class="card-img-top" src="${img}" width="360" height="144" loading
 ${navHeader(R)}
 <main class="container-lg"><div class="list-matches px-2"><div id="tbody3">
 <nav aria-label="breadcrumb"><ol class="breadcrumb">
-<li class="breadcrumb-item"><a class="linkUn" href="${R}index.html">Home</a></li>
-<li class="breadcrumb-item"><a class="linkUn" href="../../index.html">Football</a></li>
+<li class="breadcrumb-item"><a class="linkUn" href="${R}">Home</a></li>
+<li class="breadcrumb-item"><a class="linkUn" href="../../">Football</a></li>
 <li class="breadcrumb-item active">${esc(teamName)}</li>
 </ol></nav>
 
@@ -508,7 +508,7 @@ function renderSportListing(sportCfg, matches, sportLabel, extra) {
     const away = extractTeam(competitors, 'away');
     const dateISO = m.date;
     const slug = m.shortName ? slugify(m.shortName) : m.id;
-    const href = `${m.id}/${slug}/index.html`;
+    const href = `${m.id}/${slug}/`;
     return `<a href="${href}" class="matches" aria-label="${esc(m.name)}">
 <div class="matches-block border rounded-3 d-block ripple"><div class="matches-main"><div class="matches-team"><div class="team-line centered">
 <div class="col-3-list">${home&&home.logo?`<img class="team-logo animation fade-in" src="${home.logo}" width="40" height="40" loading="lazy" alt="${esc(home.abbreviation)}">`:''}<span class="team-name">${esc(home?home.name:'')}</span></div>
@@ -525,7 +525,7 @@ function renderSportListing(sportCfg, matches, sportLabel, extra) {
           const h = extractTeam(c, 'home');
           const a = extractTeam(c, 'away');
           const s = m.shortName ? slugify(m.shortName) : m.id;
-          return `<a href="${m.id}/${s}/index.html" class="matches" aria-label="${esc(m.name)}">
+          return `<a href="${m.id}/${s}/" class="matches" aria-label="${esc(m.name)}">
 <div class="matches-block border rounded-3 d-block ripple"><div class="matches-main"><div class="matches-team"><div class="team-line centered">
 <div class="col-3-list">${h&&h.logo?`<img class="team-logo animation fade-in" src="${h.logo}" width="40" height="40" loading="lazy" alt="${esc(h.abbreviation)}">`:''}<span class="team-name">${esc(h?h.name:'')}</span></div>
 <span class="prediction-score">${renderMatchResult(m, h, a)}<span class="league text-center"></span></span>
@@ -536,7 +536,7 @@ function renderSportListing(sportCfg, matches, sportLabel, extra) {
         return `<div class="accordion-item border-0">
 <h2 class="accordion-header" style="color:#00222e;font-family:Monda;font-size:1rem;">
 <button class="accordion-button ${isFirst?'':'collapsed'} py-2" type="button" data-mdb-toggle="collapse" data-mdb-target="#${accordionId}" style="box-shadow:unset;border-top:1px solid #ecedef;font-family:Verdana,Arial,Helvetica,sans-serif;color:#333;font-weight:600;white-space:nowrap;">
-<a href="${g.leagueSlug ? R+g.sportKey+'/leagues/'+g.leagueSlug+'/index.html' : '#'}" style="text-decoration:none;color:inherit;" data-mdb-toggle="tooltip" title="See All">
+<a href="${g.leagueSlug ? R+g.sportKey+'/leagues/'+g.leagueSlug+'/' : '#'}" style="text-decoration:none;color:inherit;" data-mdb-toggle="tooltip" title="See All">
 ${g.logo ? `<img alt="${esc(g.label)}" src="${g.logo}" width="40" height="40" style="margin-right:5px;">` : ''}</a>${esc(g.label)}
 </button></h2>
 <div id="${accordionId}" class="accordion-collapse collapse ${isFirst?'show':''}" style="overflow-x:auto;">
@@ -550,14 +550,14 @@ ${g.logo ? `<img alt="${esc(g.label)}" src="${g.logo}" width="40" height="40" st
   return `<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="index,follow">
 <title>${title} Streams | Live ${title} Events</title>
-<link rel="canonical" href="index.html"><link rel="shortcut icon" href="${R}nav.png" type="image/png">
+<link rel="canonical" href=""><link rel="shortcut icon" href="${R}nav.png" type="image/png">
 <link rel="stylesheet" href="${R}assets/css/style.css" type="text/css">
 <link rel="preload" href="${R}assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <meta name="theme-color" content="#8B2E3D">${HISTATS}</head>
 <body>
 ${navHeader(R)}
 <main class="container-lg overflow-auto"><div class="list-matches px-2"><div id="tbody3">
-<nav aria-label="breadcrumb"><ol class="breadcrumb text-secondary"><li class="breadcrumb-item"><a href="${R}index.html" class="text-danger">Home</a></li><li class="breadcrumb-item active">${title}</li></ol></nav>
+<nav aria-label="breadcrumb"><ol class="breadcrumb text-secondary"><li class="breadcrumb-item"><a href="${R}" class="text-danger">Home</a></li><li class="breadcrumb-item active">${title}</li></ol></nav>
 <div class="row gx-3">
 <div class="${newsArticles.length ? 'col-md-8' : 'col-12'} py-2">
 ${sportIcon ? `<h1 class="h1title"><img alt="${title}" src="${sportIcon}" width="40" height="40" style="width:40px;height:40px;vertical-align:top;"><span class="">${title} Fixtures</span></h1>` : ''}
@@ -634,7 +634,7 @@ function renderHomepage(sportMatches, extra) {
       const dateISO = m.date;
       const matchSlug = m.shortName ? slugify(m.shortName) : m.id;
       const logoParams = (home && home.logo && home.logo.includes('?')) ? '' : '';
-      return `<a href="soccer/${m.id}/${matchSlug}/index.html" class="matches" aria-label="${esc(m.name)}">
+      return `<a href="soccer/${m.id}/${matchSlug}/" class="matches" aria-label="${esc(m.name)}">
 <div class="matches-block border rounded-3 d-block ripple"><div class="matches-main"><div class="matches-team"><div class="team-line centered">
 <div class="col-3-list">${home&&home.logo ? `<img class="team-logo animation fade-in" src="${home.logo}" width="40" height="40" loading="lazy" alt="${esc(home.abbreviation)}">` : ''}<span class="team-name">${esc(home ? home.name : '')}</span></div>
 <span class="prediction-score"><span class="matches-time"><div class="truncate">${formatTime(dateISO)}</div></span><span class="matches-time text-center"><span class="fw-bold fs-6">vs</span></span><span class="league text-center"></span></span>
@@ -656,7 +656,7 @@ function renderHomepage(sportMatches, extra) {
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="index,follow">
 <title>StreamEast — Free Live Sports Streaming HD | NFL, NBA, UFC, Soccer &amp; MMA</title>
 <meta name="description" content="StreamEast delivers free HD live sports. Watch NBA, NFL, NHL, MLB, UFC, Soccer, MMA, and football streams online — no sign-up required Just watch every streams in HD for free.">
-<link rel="canonical" href="index.html"><link rel="shortcut icon" href="nav.png" type="image/png">
+<link rel="canonical" href=""><link rel="shortcut icon" href="nav.png" type="image/png">
 <link rel="stylesheet" href="assets/css/style.css" type="text/css">
 <link rel="preload" href="assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <meta property="og:title" content="StreamEast - Free Live Sports Streaming">

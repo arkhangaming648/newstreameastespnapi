@@ -27,20 +27,20 @@ const ADSTERRA = `<script src="https://pl30592651.effectivecpmnetwork.com/82/30/
 function navHeader(R) {
   return `<nav class="navbar navbar-expand-md navbar-light sticky-top">
 <div class="container-lg align-items-center">
-<a href="${R}index.html"><img src="${R}og.png" alt="StreamEast" style="width:37%;min-width:200px;height:auto;display:block;"></a>
+<a href="${R}"><img src="${R}og.png" alt="StreamEast" style="width:37%;min-width:200px;height:auto;display:block;"></a>
 <button class="navbar-toggler px-0" type="button" data-mdb-toggle="offcanvas" data-mdb-target="#offcanvasNavbar"><i class="fas fa-bars"></i></button>
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
 <div class="offcanvas-header pb-0"><h5 class="offcanvas-title">Main Menu</h5><button class="navbar-toggler px-0"><i class="fas fa-bars"></i></button></div>
 <div class="offcanvas-body"><ul class="nav navbar-nav ms-auto mb-2 mb-lg-0 justify-content-end flex-grow-1">
-<li class="nav-item"><a class="nav-link" href="${R}index.html"><span><i class="fas fa-home fa-lg"></i></span></a></li>
-<li class="nav-item"><a class="nav-link" href="${R}soccer/index.html">Soccer</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}nba/index.html">NBA</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}nfl/index.html">NFL</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}nhl/index.html">NHL</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}mlb/index.html">MLB</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}mma/index.html">MMA</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}boxing/index.html">Boxing</a></li>
-<li class="nav-item"><a class="nav-link" href="${R}f1/index.html">Formula 1</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}"><span><i class="fas fa-home fa-lg"></i></span></a></li>
+<li class="nav-item"><a class="nav-link" href="${R}soccer/">Soccer</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}nba/">NBA</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}nfl/">NFL</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}nhl/">NHL</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}mlb/">MLB</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}mma/">MMA</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}boxing/">Boxing</a></li>
+<li class="nav-item"><a class="nav-link" href="${R}f1/">Formula 1</a></li>
 </ul></div></div></div></nav>`;
 }
 
@@ -66,21 +66,21 @@ function footerHTML(R) {
 <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
 <h6 class="text-uppercase fw-bold mb-4">Competitions</h6>
 <ul class="list-unstyled mb-0">
-<li><a class="linkUn text-muted" href="${l('soccer/leagues/uefa-champions-league/index.html')}">Champions League</a></li>
-<li><a class="linkUn text-muted" href="${l('soccer/leagues/english-premier-league/index.html')}">Premier League</a></li>
-<li><a class="linkUn text-muted" href="${l('soccer/leagues/spanish-laliga/index.html')}">LaLiga</a></li>
-<li><a class="linkUn text-muted" href="${l('soccer/leagues/italian-serie-a/index.html')}">Serie A</a></li>
-<li><a class="linkUn text-muted" href="${l('soccer/leagues/french-ligue-1/index.html')}">Ligue 1</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/leagues/uefa-champions-league/')}">Champions League</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/leagues/english-premier-league/')}">Premier League</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/leagues/spanish-laliga/')}">LaLiga</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/leagues/italian-serie-a/')}">Serie A</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/leagues/french-ligue-1/')}">Ligue 1</a></li>
 </ul>
 </div>
 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
 <h6 class="text-uppercase fw-bold mb-4">Teams</h6>
 <ul class="list-unstyled mb-0">
-<li><a class="linkUn text-muted" href="${l('soccer/team/364/liverpool/index.html')}">Liverpool</a></li>
-<li><a class="linkUn text-muted" href="${l('soccer/team/360/manchester-united/index.html')}">Manchester United</a></li>
-<li><a class="linkUn text-muted" href="${l('soccer/team/86/real-madrid/index.html')}">Real Madrid</a></li>
-<li><a class="linkUn text-muted" href="${l('soccer/team/83/barcelona/index.html')}">Barcelona</a></li>
-<li><a class="linkUn text-muted" href="${l('soccer/team/160/paris-saint-germain/index.html')}">Paris Saint-Germain</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/team/364/liverpool/')}">Liverpool</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/team/360/manchester-united/')}">Manchester United</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/team/86/real-madrid/')}">Real Madrid</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/team/83/barcelona/')}">Barcelona</a></li>
+<li><a class="linkUn text-muted" href="${l('soccer/team/160/paris-saint-germain/')}">Paris Saint-Germain</a></li>
 </ul>
 </div>
 </div></div></section>
@@ -192,7 +192,7 @@ function renderMatchPage(ev) {
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="index,follow">
 <title>${esc(ev.name)} - Live Stream</title>
 <meta name="description" content="Watch ${esc(ev.name)} live boxing streaming.">
-<link rel="canonical" href="${R}boxing/${ev.id}/${slugify(ev.shortName||ev.name)}/index.html">
+<link rel="canonical" href="${R}boxing/${ev.id}/${slugify(ev.shortName||ev.name)}/">
 <link rel="shortcut icon" href="${R}nav.png" type="image/png">
 <link rel="stylesheet" href="${R}assets/css/style.css" type="text/css">
 <link rel="preload" href="${R}assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -204,7 +204,7 @@ function renderMatchPage(ev) {
 <body>
 ${navHeader(R)}
 <main class="container-lg py-5">
-<nav aria-label="breadcrumb"><ol class="breadcrumb text-secondary"><li class="breadcrumb-item"><a href="${R}index.html" class="text-danger">Home</a></li><li class="breadcrumb-item"><a href="../../index.html">Boxing</a></li><li class="breadcrumb-item active">${esc(ev.name)}</li></ol></nav>
+<nav aria-label="breadcrumb"><ol class="breadcrumb text-secondary"><li class="breadcrumb-item"><a href="${R}" class="text-danger">Home</a></li><li class="breadcrumb-item"><a href="../../">Boxing</a></li><li class="breadcrumb-item active">${esc(ev.name)}</li></ol></nav>
 <div class="row mt-4"><div class="col-12 text-center">
 <h1 class="fw-bold text-white">${esc(ev.name)} - Live Stream</h1>
 <p class="text-muted small">No stream available yet.</p>
@@ -245,7 +245,7 @@ function renderListing(matches) {
     const home = m._competitors.find(c => c.homeAway === 'home');
     const away = m._competitors.find(c => c.homeAway === 'away');
     const countdown = m.date ? timeUntil(m.date) : '';
-    return `<div class="col-12"><a href="${m.id}/${slugify(m.shortName||m.name)}/index.html" class="text-decoration-none">
+    return `<div class="col-12"><a href="${m.id}/${slugify(m.shortName||m.name)}/" class="text-decoration-none">
 <div class="card bg-dark border border-secondary"><div class="card-body d-flex align-items-center py-3">
 <div class="me-3"><img src="${BOXING_ICON_CARD}" alt="Gloves" class="rounded-circle"></div>
 <div class="flex-grow-1">
@@ -261,14 +261,14 @@ ${m._venue ? `<p class="card-text text-muted small mb-0">${esc(m._venue.fullName
   return `<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="index,follow">
 <title>Boxing Streams | Live Boxing Events &amp; Fights</title>
-<link rel="canonical" href="index.html"><link rel="shortcut icon" href="${R}nav.png" type="image/png">
+<link rel="canonical" href=""><link rel="shortcut icon" href="${R}nav.png" type="image/png">
 <link rel="stylesheet" href="${R}assets/css/style.css" type="text/css">
 <link rel="preload" href="${R}assets/css/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <meta name="theme-color" content="#8B2E3D">${HISTATS}</head>
 <body>
 ${navHeader(R)}
 <main class="container-lg py-5">
-<nav aria-label="breadcrumb"><ol class="breadcrumb text-secondary"><li class="breadcrumb-item"><a href="${R}index.html" class="text-danger">Home</a></li><li class="breadcrumb-item active">Boxing</li></ol></nav>
+<nav aria-label="breadcrumb"><ol class="breadcrumb text-secondary"><li class="breadcrumb-item"><a href="${R}" class="text-danger">Home</a></li><li class="breadcrumb-item active">Boxing</li></ol></nav>
 <hr class="border-danger border-5 mb-7 w-250 mx-auto">
 <div class="row g-3">${items||'<div class="col-12 text-center text-white"><p>No upcoming boxing events.</p></div>'}</div>
 </main>
